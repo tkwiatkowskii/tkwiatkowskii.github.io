@@ -6,7 +6,7 @@ export default defineConfig(({ command }) => {
       base: './',
       server: {
         open: true,
-        port: 7001,
+        port: 7000,
         watch: {
           usePolling: true,
           interval: 1000,
