@@ -1,0 +1,4 @@
+.layout__content {
+  grid-area: content;
+  background-color: #1b1b1f;
+}

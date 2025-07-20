@@ -1,0 +1,20 @@
+.layout__sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  background-color: #161618;
+  box-shadow: 0.1rem 0 0.5rem rgba(0, 0, 0, 0.5);
+
+  .sidebar__button {
+    position: absolute;
+    cursor: pointer;
+    right: -4rem;
+    top: 1rem;
+    padding: 0.7rem;
+    border-radius: 20rem;
+    background-color: transparent;;
+
+    &:hover {
+      background-color: rgba(125, 115, 115, 0.131);
+    }
+  }
+}
