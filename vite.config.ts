@@ -4,7 +4,7 @@ import nestingCSS from 'postcss-nesting';
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
-      base: './',
+      base: '/',
       server: {
         open: true,
         port: 8000,
@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
 
   } else {
     return {
-      base: './',
+      base: '/',
       build: {
         outDir: 'dist',
         sourcemap: true,

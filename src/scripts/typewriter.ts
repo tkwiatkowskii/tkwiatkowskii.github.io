@@ -2,7 +2,7 @@ export default function typewriterEffect() {
   const textElement = document.querySelector<HTMLSpanElement>
     ('.header__title--effect');
   const textContent : string = "dependency injection?";
-  let length = textContent.length;
+  const length = textContent.length;
   
   if (!textElement) return;
 
