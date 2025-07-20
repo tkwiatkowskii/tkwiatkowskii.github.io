@@ -7,21 +7,25 @@
     <meta name="description" content="Educational content on dependency injection and composition" />
     <meta name="keywords" content="dependency injection, composition, software design, learn programming" />
     <meta name="author" content="Tomasz Kwiatkowski" />
-    <link rel="stylesheet" href="./src/reset.css" />
-    <link rel="stylesheet" href="./src/styles.css" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
   </head>
   <body>
-    <div id="layout">
-      <header id="header">
-      </header>
-      <nav id="sidebar">
-        <ol>
-        </ol>
+    <div class="layout">
+      <header class="layout__header"></header>
+
+      <nav class="layout__sidebar">
+        <button class="sidebar__button">
+          <img src="./menu-icon.svg" alt="hamburger menu icon" class="button__icon"/>
+          <span class="button__fallback-text">hamburger menu icon</span>
+        </button>
+        <ol></ol>
       </nav>
-      <main id="content">
-      </main>
-      <footer id="footer">
-      </footer>
+
+      <main class="layout__content"></main>
+
+      <footer class="layout__footer"></footer>
     </div>
+    <script type="module" src="./src/sidebar.ts" defer></script>
   </body>
 </html>

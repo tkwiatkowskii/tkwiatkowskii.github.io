@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import nestingCSS from 'postcss-nesting';
 
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
@@ -6,13 +7,19 @@ export default defineConfig(({ command }) => {
       base: './',
       server: {
         open: true,
-        port: 7000,
+        port: 8000,
         watch: {
           usePolling: true,
-          interval: 1000,
+          interval: 500,
         }
       },
+      css: {
+        postcss: {
+          plugins: [nestingCSS()]
+        },
+      }
     };
+
   } else {
     return {
       base: './',
@@ -22,6 +29,11 @@ export default defineConfig(({ command }) => {
         minify: true,
         emptyOutDir: true,
       },
+      css: {
+        postcss: {
+          plugins: [nestingCSS()]
+        },
+      }
     };
   }
 });
