@@ -3,15 +3,21 @@
   background-color: #1b1b1f;
   border-bottom: 0.12rem solid #0d0d10;
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   min-width: fit-content;
   min-height: fit-content;
   gap: 3.7rem;
 
   .header__title {
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
     font-weight: 700;
     letter-spacing: 1px;
+
+    @media only screen and (min-width: 900px) {
+      font-size: 1.8rem;
+    }
+    
 
     .header__title--effect {
       background: linear-gradient(90deg, #5c62b8, #b94ba9);
@@ -44,6 +50,7 @@
     height: 100%;
     display: flex;
     align-items: center;
+    transition: filter 0.2s ease;
 
     &::after {
       content: '';
@@ -57,7 +64,6 @@
 
     &:hover, &:active {
       cursor: pointer;
-      transition: filter 0.2s ease;;
       filter: brightness(1.2);
     }
   }
