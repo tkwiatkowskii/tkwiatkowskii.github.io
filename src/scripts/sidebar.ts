@@ -22,15 +22,6 @@ export default class Sidebar {
       this.button.addEventListener('click', () => {
         layout.classList.toggle('layout--collapsed');
       });
-
-      this.button.addEventListener('touchstart', () => {
-        this.button?.classList.add('active');
-      });
-
-      this.button.addEventListener('touchend', () => {
-        this.button?.classList.remove('active');
-      });
-
     };
 
     if (this.lightUpEffect && this.sidebar) {
@@ -60,31 +51,35 @@ export default class Sidebar {
 
   private addGlowEffect() : void {
     if (this.lightUpEffect && this.sidebar && this.sidebarEffectContainer) {
-      this.sidebar.addEventListener('pointermove', (event : PointerEvent) => {
-        if (event.target === this.sidebarEffectContainer) return;
+      ['pointermove', 'focusin'].forEach((eventName : string) => {
+        this.sidebar!.addEventListener(eventName, (event : Event) => {
+          if (event.target === this.sidebarEffectContainer) return;
 
-        const target = event.target as HTMLElement;
+          const target = event.target as HTMLElement;
 
-        if (!this.sidebar!.contains(target) && target !== this.sidebar) return;
+          if (!this.sidebar!.contains(target) && target !== this.sidebar) return;
 
-        const listItem = target.closest('.sidebar__item');
-        if (!listItem && !this.sidebarEffectContainer) return;
+          const listItem = target.closest('.sidebar__item');
+          if (!listItem || !this.sidebarEffectContainer) return;
 
-        const containerRect = this.sidebarEffectContainer!.getBoundingClientRect();
-        const itemRect = listItem!.getBoundingClientRect();
+          const containerRect = this.sidebarEffectContainer!.getBoundingClientRect();
+          const itemRect = listItem!.getBoundingClientRect();
 
-        const relativeY = itemRect.top - containerRect.top;
-        const itemHeight = itemRect.height;
+          const relativeY = itemRect.top - containerRect.top;
+          const itemHeight = itemRect.height;
 
-        this.lightUpEffect!.style.transform = `translateY(${relativeY}px)`;
-        this.lightUpEffect!.style.height = `${itemHeight}px`;
-        this.lightUpEffect!.style.opacity = '1';
+          this.lightUpEffect!.style.transform = `translateY(${relativeY}px)`;
+          this.lightUpEffect!.style.height = `${itemHeight}px`;
+          this.lightUpEffect!.style.opacity = '1';
+        });
       });
 
-      this.sidebar.addEventListener('pointerleave', () => {
-        this.lightUpEffect!.style.opacity = '0';
-    });
-    }
+      ['pointerleave', 'focusout'].forEach((eventName : string) => {
+        this.sidebar!.addEventListener(eventName, () => {
+          this.lightUpEffect!.style.opacity = '0';
+        });
+      });
+    };
   }
 
   private updateSidebarDataText() : void {

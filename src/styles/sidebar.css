@@ -17,7 +17,7 @@
       background-color: rgba(125, 115, 115, 0.131);
     }
     
-    @media only screen and (min-width: 1024px) {
+    @media only screen and (min-width: 900px) {
       &:hover {
         background-color: rgba(125, 115, 115, 0.131);
       }
@@ -74,12 +74,6 @@
         pointer-events: none;   
         transition: opacity 0.15s ease-in;
         white-space: nowrap;
-      }
-
-
-      .sidebar__item--section:focus-within::after,
-      .sidebar__item--subsection:focus-within::after {
-        opacity: 1;
       }
 
       @media only screen and (min-width: 1024px) {

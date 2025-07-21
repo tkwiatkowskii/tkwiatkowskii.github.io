@@ -10,12 +10,29 @@ body {
   width: 100vw;
   background-color: #181A20;
   grid-template-areas:
+    "header"
+    "content"
+    "footer";
+  grid-template-columns: 1fr;
+  grid-template-rows: 4rem 1fr 4rem;
+  transition: grid-template-columns 0.3s ease-in-out;
+
+  .layout__sidebar {
+    display: none;
+  }
+
+  @media only screen and (min-width: 900px) {
+    grid-template-areas:
     "header header"
     "sidebar content"
     "footer footer";
-  grid-template-columns: min(15rem, 20vw) 1fr;
-  grid-template-rows: 4rem 1fr 4rem;
-  transition: grid-template-columns 0.3s ease-in-out;
+    grid-template-columns: min(15rem, 20vw) 1fr;
+    grid-template-rows: 4rem 1fr 4rem;
+
+    .layout__sidebar {
+      display: block;
+    }
+  }
 }
 
 .layout--collapsed {
