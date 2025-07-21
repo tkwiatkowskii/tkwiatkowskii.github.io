@@ -22,6 +22,7 @@ export default class Sidebar {
       this.button.addEventListener('click', () => {
         layout.classList.toggle('layout--collapsed');
       });
+
     };
 
     if (this.lightUpEffect && this.sidebar) {

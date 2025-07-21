@@ -7,7 +7,17 @@
   align-items: center;
   min-width: fit-content;
   min-height: fit-content;
-  gap: 3.7rem;
+  --gap: calc(min(7vw, 3.7rem));
+  gap: var(--gap);
+  --padding: 0.4rem;
+  padding-block-start: var(--padding);
+  padding-block-end: var(--padding);
+  position: relative;
+
+  @media only screen and (min-width: 900px) {
+    --gap: 3.7rem;
+    --padding: 0;
+  }
 
   .header__title {
     font-size: clamp(1.2rem, 4vw, 1.8rem);
@@ -44,8 +54,8 @@
     }
   }
 
-  .header__brightness-icon {
-    margin-inline-start: 1.85rem;
+  .header__icon {
+    margin-inline-start: calc(0.5 * var(--gap));
     position: relative;
     height: 100%;
     display: flex;
@@ -56,16 +66,35 @@
       content: '';
       display: inline-block;
       position: absolute;
-      right: -1.85rem;
+      right: calc(-0.5 * var(--gap));
       width: 2px;
-      height: 100%;
-      background: rgba(125, 115, 115, 0.244)
+      height: calc(100% + 2 * var(--padding));
+      background: rgba(125, 115, 115, 0.244);
+
+      @media only screen and (min-width: 900px) {
+        height: 100%;
+      }
     }
 
-    &:hover, &:active {
-      cursor: pointer;
+    &:active {
       filter: brightness(1.2);
     }
+
+    @media only screen and (min-width: 900px) {
+      &:hover {
+        cursor: pointer;
+        filter: brightness(1.2);
+      }
+    }
+  }
+
+  .header__navigation-menu {
+    position: absolute;
+    background-color: grey;
+    display: block;
+    top: 40rem;
+    width: 100vw;
+    height: 10rem;
   }
 }
 
