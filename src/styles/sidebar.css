@@ -11,10 +11,113 @@
     top: 1rem;
     padding: 0.7rem;
     border-radius: 20rem;
-    background-color: transparent;;
+    background-color: transparent;
 
-    &:hover {
+    &:active {
       background-color: rgba(125, 115, 115, 0.131);
     }
+    
+    @media only screen and (min-width: 1024px) {
+      &:hover {
+        background-color: rgba(125, 115, 115, 0.131);
+      }
+    }
   }
+
+  .sidebar__navigation-wrapper {
+    position: relative;
+    color: #B7B7B7;
+    overflow: hidden;
+    min-height: fit-content;
+    margin-inline-start: 2rem;
+    margin-block-start: 2rem;
+
+    .sidebar__navigation-list {
+      display: flex;
+      gap: 0.7rem;
+      flex-direction: column;
+      align-items: flex-start;
+      cursor: pointer;
+
+      .sidebar__item--section {
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .sidebar__item--subsection {
+        color: #918d92;
+      }
+
+      .sidebar__item--section,
+      .sidebar__item--subsection {
+        position: relative;
+        display: inline-block;
+      }
+
+      .sidebar__item--section::after,
+      .sidebar__item--subsection::after {
+        content: attr(data-text);   /* must match the text content */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+
+        background: linear-gradient(90deg, #5c62b8, #b94ba9);
+        background-size: 200% 100%;
+        background-position: 0% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        opacity: 0;       
+        pointer-events: none;   
+        transition: opacity 0.15s ease-in;
+        white-space: nowrap;
+      }
+
+
+      .sidebar__item--section:focus-within::after,
+      .sidebar__item--subsection:focus-within::after {
+        opacity: 1;
+      }
+
+      @media only screen and (min-width: 1024px) {
+        .sidebar__item--section:hover::after,
+        .sidebar__item--subsection:hover::after {
+          opacity: 1;
+        }
+      }
+
+
+    }
+
+    .sidebar__effect-container,
+    .sidebar__effect {
+      width: 2px;
+      right: 10%;
+    }
+
+    .sidebar__effect-container {
+      position: absolute;
+      background-color: rgba(125, 115, 115, 0.244);
+      height: 100%;
+
+      .sidebar__effect {
+        top: 0;
+        position: absolute;
+        width: 100%;
+        background-color: rgba(239, 230, 230, 0.244);
+        border-radius: 10rem;
+        z-index: 2;
+        transition: transform 0.2s ease, height 0.1s ease, opacity 0.3s ease;
+      }
+    }
+  }
+}
+
+.layout--collapsed .sidebar__navigation-list {
+  transform: translateX(-7rem);
+  transition: transform 0.2s ease-in-out;
+  pointer-events: none;
 }
