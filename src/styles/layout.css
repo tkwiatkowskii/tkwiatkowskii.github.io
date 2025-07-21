@@ -1,7 +1,8 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
-  color: rgb(223, 223, 214)
+  color: rgb(223, 223, 214);
+  font-weight: 400;
 }
 
 .layout {
@@ -21,12 +22,12 @@ body {
     display: none;
   }
 
-  @media only screen and (min-width: 900px) {
+  @media only screen and (min-width: 768px) {
     grid-template-areas:
       "header header"
       "sidebar content"
       "footer footer";
-    grid-template-columns: min(15rem, 20vw) 1fr;
+    grid-template-columns: min(14rem, 25vw) 1fr;
     grid-template-rows: 4rem 1fr 4rem;
 
     .layout__sidebar {
