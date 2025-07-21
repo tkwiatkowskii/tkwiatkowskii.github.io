@@ -22,7 +22,6 @@ export default class Sidebar {
       this.button.addEventListener('click', () => {
         layout.classList.toggle('layout--collapsed');
       });
-
     };
 
     if (this.lightUpEffect && this.sidebar) {
@@ -39,7 +38,6 @@ export default class Sidebar {
       const lightUpEffect : HTMLDivElement = document.createElement('div');
 
       lightUpEffect.classList.add('sidebar__effect');
-
       this.sidebarEffectContainer.prepend(lightUpEffect);
 
       return lightUpEffect;
@@ -87,12 +85,8 @@ export default class Sidebar {
     if (this.sidebarNavList) {
       const listItems = this.sidebarNavList.querySelectorAll('.sidebar__item');
       listItems.forEach((listItem) => {
-        const firstChild = listItem.firstElementChild as HTMLElement;
-
-        if (firstChild) {
-          const textContent : string = firstChild.textContent ?? '';
-          firstChild.dataset.text = textContent;
-        }
+        const textContent: string = listItem.textContent?.trim() ?? '';
+        listItem.setAttribute('data-text', textContent);
       });
     }
   }
