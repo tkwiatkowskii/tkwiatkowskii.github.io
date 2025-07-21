@@ -1,7 +1,8 @@
-import toggleSidebar from "./sidebar";
 import typewriterEffect from "./typewriter";
+import Sidebar from "./sidebar";
 
 window.onload = () => {
-  toggleSidebar();
   typewriterEffect();
+  let sidebar = new Sidebar();
+  sidebar.toggleSidebar();
 }

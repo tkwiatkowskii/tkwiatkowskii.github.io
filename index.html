@@ -9,6 +9,7 @@
     <meta name="author" content="Tomasz Kwiatkowski" />
     <link rel="stylesheet" href="./src/styles/main.css" />
   </head>
+
   <body>
     <div class="layout">
       <header class="layout__header">
@@ -20,16 +21,34 @@
           <span class="header__title--effect"></span>
         </h1>
       </header>
+
       <nav class="layout__sidebar">
         <button class="sidebar__button">
           <img src="./menu-icon.svg" alt="hamburger menu icon" class="button__icon"/>
         </button>
-        <ol></ol>
+        <div class="sidebar__navigation-wrapper">
+          <div class="sidebar__effect-container"></div>
+          <ol class="sidebar__navigation-list">
+            <li class="sidebar__item">
+              <h3 class="sidebar__item--section"> dsaidsajn </h3>
+            </li>
+            <li class="sidebar__item">
+              <h4 class="sidebar__item--subsection">dmskjndkjnas</h4>
+            </li>
+            <li class="sidebar__item">
+              <h4 class="sidebar__item--subsection">dsjndjsnj</h4>
+            </li>
+          </ol>
+        </div>
       </nav>
 
-      <main class="layout__content"></main>
+      <main class="layout__content">
 
-      <footer class="layout__footer"></footer>
+      </main>
+
+      <footer class="layout__footer">
+
+      </footer>
     </div>
     <script type="module" src="./src/scripts/main.ts" defer></script>
   </body>

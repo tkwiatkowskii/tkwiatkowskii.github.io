@@ -1,7 +1,9 @@
-/* Josh Comeau reset https://www.joshwcomeau.com/css/custom-css-reset/ */
+/* Josh Comeau reset https://www.joshwcomeau.com/css/custom-css-reset/ 
+  modified with my own changes */
 
 *, *::before, *::after {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 * {
@@ -43,4 +45,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #root, #__next {
   isolation: isolate;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

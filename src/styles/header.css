@@ -18,6 +18,7 @@
       background-clip: text;
       position: relative;
       -webkit-background-clip: text;
+      -moz-background-clip: text;
       color: transparent;
       text-align: right;
       display: inline-block;
@@ -54,9 +55,9 @@
       background: rgba(125, 115, 115, 0.244)
     }
 
-    &:hover {
+    &:hover, &:active {
       cursor: pointer;
-      transition: filter 0.2s ease;
+      transition: filter 0.2s ease;;
       filter: brightness(1.2);
     }
   }
