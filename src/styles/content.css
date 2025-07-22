@@ -1,4 +1,9 @@
 .layout__content {
   grid-area: content;
   background-color: #1b1b1f;
+
+  text-align: left;
+  letter-spacing: 1px;
+  width: auto;
+  padding-inline: 10rem;
 }

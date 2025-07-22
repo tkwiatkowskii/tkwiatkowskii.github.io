@@ -9,5 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
       Header.init(),
       Sidebar.init()
     ]);
-  })();
+  })().catch((error) => {
+    alert(`
+      Something went wrong - please refresh the site.
+      Initialization error: ${error instanceof Error ? error.message : error}`);
+  });
 });

@@ -12,85 +12,78 @@ export default class Sidebar {
     this.sidebar = document.querySelector<HTMLDivElement>('.sidebar__navigation-wrapper');
     this.sidebarNavList = document.querySelector<HTMLOListElement>('.sidebar__navigation-list');
 
-    this.toggleSidebar();
+    this.displaySidebar();
   }
 
 
-  public toggleSidebar(): void {
+  public displaySidebar(): void {
     const layout = document.querySelector<HTMLDivElement>
     ('.layout');
 
-    if (this.button && layout) {
-      this.button.addEventListener('click', () => {
-        layout.classList.toggle('layout--collapsed');
-      });
-    };
+    if (!this.button || !layout) throw new Error("Couldn't attach event listener to the button");
 
-    if (this.lightUpEffect && this.sidebar) {
-      this.addGlowEffect();
-    };
-
-    if (this.sidebarNavList) {
-      this.updateSidebarDataText();
-    };
+    this.button.addEventListener('click', () => {
+      layout.classList.toggle('layout--collapsed');
+    });
+      
+    this.addGlowEffect();
+    this.updateSidebarDataText();
   };
 
-  private createLightEffect() : HTMLDivElement | void {
-    if (this.sidebarEffectContainer) {
-      const lightUpEffect : HTMLDivElement = document.createElement('div');
+  private createLightEffect() : HTMLDivElement {
+    if (!this.sidebarEffectContainer) throw new Error("Couldn't add light effect");
 
-      lightUpEffect.classList.add('sidebar__effect');
-      this.sidebarEffectContainer.prepend(lightUpEffect);
+    const lightUpEffect : HTMLDivElement = document.createElement('div');
 
-      return lightUpEffect;
-    }
+    lightUpEffect.classList.add('sidebar__effect');
+    this.sidebarEffectContainer.prepend(lightUpEffect);
 
-    else {
-      return;
-    }
+    return lightUpEffect;
   };
 
   private addGlowEffect() : void {
-    if (this.lightUpEffect && this.sidebar && this.sidebarEffectContainer) {
-      ['pointermove', 'focusin'].forEach((eventName : string) => {
-        this.sidebar!.addEventListener(eventName, (event : Event) => {
-          if (event.target === this.sidebarEffectContainer) return;
+    if (!this.lightUpEffect || !this.sidebar || !this.sidebarEffectContainer) 
+      throw new Error("Couldn't add glow effect");
 
-          const target = event.target as HTMLElement;
+    ['pointermove', 'focusin'].forEach((eventName: string) => {
+      this.sidebar!.addEventListener(eventName, (event: Event) => {
+        if (event.target === this.sidebarEffectContainer) return;
 
-          if (!this.sidebar!.contains(target) && target !== this.sidebar) return;
+        const target = event.target as HTMLElement;
 
-          const listItem = target.closest('.sidebar__item');
-          if (!listItem || !this.sidebarEffectContainer) return;
+        if (!this.sidebar!.contains(target) && target !== this.sidebar) return;
 
-          const containerRect = this.sidebarEffectContainer!.getBoundingClientRect();
-          const itemRect = listItem!.getBoundingClientRect();
+        const listItem = target.closest('.sidebar__item');
+        if (!listItem || !this.sidebarEffectContainer) return;
 
-          const relativeY = itemRect.top - containerRect.top;
-          const itemHeight = itemRect.height;
+        const containerRect = this.sidebarEffectContainer.getBoundingClientRect();
+        const itemRect = listItem.getBoundingClientRect();
 
-          this.lightUpEffect!.style.transform = `translateY(${relativeY}px)`;
-          this.lightUpEffect!.style.height = `${itemHeight}px`;
-          this.lightUpEffect!.style.opacity = '1';
-        });
+        const relativeY = itemRect.top - containerRect.top;
+        const itemHeight = itemRect.height;
+
+        this.lightUpEffect!.style.transform = `translateY(${relativeY}px)`;
+        this.lightUpEffect!.style.height = `${itemHeight}px`;
+        this.lightUpEffect!.style.opacity = '1';
       });
+    });
 
-      ['pointerleave', 'focusout'].forEach((eventName : string) => {
-        this.sidebar!.addEventListener(eventName, () => {
-          this.lightUpEffect!.style.opacity = '0';
-        });
+    ['pointerleave', 'focusout'].forEach((eventName: string) => {
+      this.sidebar!.addEventListener(eventName, () => {
+        this.lightUpEffect!.style.opacity = '0';
       });
-    };
+    });
+
   }
 
   private updateSidebarDataText() : void {
-    if (this.sidebarNavList) {
-      const listItems = this.sidebarNavList.querySelectorAll('.sidebar__item');
-      listItems.forEach((listItem) => {
-        const textContent: string = listItem.textContent?.trim() ?? '';
-        listItem.setAttribute('data-text', textContent);
-      });
-    }
+    if (!this.sidebarNavList) throw new Error("Couldn't update sidebar text")
+
+    const listItems = this.sidebarNavList.querySelectorAll('.sidebar__item');
+    listItems.forEach((listItem) => {
+      const textContent: string = listItem.textContent?.trim() ?? '';
+      listItem.setAttribute('data-text', textContent);
+    });
   }
 
   public static async init() : Promise<void> {

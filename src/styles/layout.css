@@ -3,6 +3,12 @@ body {
   font-size: 16px;
   color: rgb(223, 223, 214);
   font-weight: 400;
+  color-scheme: light dark;
+  --mode: light;
+
+  @media (prefers-color-scheme: light) {
+    --mode: light;
+  }
 }
 
 .layout {
