@@ -93,7 +93,7 @@ export default class Sidebar {
     }
   }
 
-  public static init() : void {
+  public static async init() : Promise<void> {
     new Sidebar();
   }
 }

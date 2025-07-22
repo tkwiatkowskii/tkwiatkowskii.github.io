@@ -12,40 +12,34 @@ export default class Header {
 
     this.updateImage();
     this.expandNavigation();
-
-    // On small screens needs to wait for the header to expand
-    setTimeout(() => {
-      this.configureHighlightSize();
-    }, 200);
+    this.configureHighlightSize();
   }
 
   private updateImage(): void {
     if (!this.button || !this.windowMedia) return;
 
-    const existingImg: Element | null = this.button.firstElementChild;
-    if (!existingImg) return;
+    this.button.style.visibility = "visible";
 
-    const newImg: HTMLImageElement = document.createElement('img');
-    newImg.classList.add('header__icon--dynamic');
+    const img = this.button.querySelector('img');
+    if (!img) return;
 
-    const replaceImage = (): void => {
+    const updateImg = (): void => {
       if (this.windowMedia.matches) {
-        newImg.src = './brightness.svg';
-        newImg.alt = 'Brightness icon';
-        newImg.classList.add('header__icon--brightness');
-        newImg.classList.remove('header__icon--menu');
+        img.src = './brightness.svg';
+        img.alt = 'Brightness icon';
+        img.classList.add('header__icon--brightness');
+        img.classList.remove('header__icon--menu');
       } else {
-        newImg.src = './menu-icon.svg';
-        newImg.alt = 'Menu icon';
-        newImg.classList.add('header__icon--menu');
-        newImg.classList.remove('header__icon--brightness');
+        img.src = './menu-icon.svg';
+        img.alt = 'Menu icon';
+        img.classList.add('header__icon--menu');
+        img.classList.remove('header__icon--brightness');
       }
     };
 
-    this.button.replaceChild(newImg, existingImg);
-    replaceImage();
-    this.windowMedia.addEventListener('change', replaceImage);
-  }
+    updateImg();
+    this.windowMedia.addEventListener('change', updateImg);
+  };
 
   private expandNavigation(): void {
     if (!this.button || !this.headerNav || !this.headerWrapper) return;
@@ -86,7 +80,7 @@ export default class Header {
     window.addEventListener('resize', calculateOffset);
   }
 
-  public static init() : void {
+  public static async init() : Promise<void> {
     new Header();
   }
 }

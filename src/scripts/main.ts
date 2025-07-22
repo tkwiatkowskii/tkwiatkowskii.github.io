@@ -2,8 +2,12 @@ import typewriterEffect from "./typewriter";
 import Sidebar from "./sidebar";
 import Header from "./header";
 
-window.onload = () => {
-  typewriterEffect();
-  Sidebar.init();
-  Header.init();
-};
+document.addEventListener('DOMContentLoaded', () => {
+  (async () => {
+    await Promise.all([
+      typewriterEffect(),
+      Header.init(),
+      Sidebar.init()
+    ]);
+  })();
+});
