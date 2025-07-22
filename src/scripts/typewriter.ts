@@ -1,7 +1,9 @@
-export default function typewriterEffect() {
+export default async function typewriterEffect() : Promise<void> {
   const textElement = document.querySelector<HTMLSpanElement>
     ('.header__title--effect');
-  const textContent : string = "dependency injection?";
+    
+  // Not a bug. Workaround for consistent header height on load
+  const textContent : string = "ependency injection?";
   const length = textContent.length;
   
   if (!textElement) return;
