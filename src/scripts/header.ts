@@ -10,18 +10,22 @@ export default class Header {
     this.headerWrapper = document.querySelector<HTMLDivElement>('.layout__header');
     this.windowMedia = window.matchMedia('(min-width: 768px)');
 
+    this.displayHeader();
+  }
+
+  private displayHeader() : void {
     this.updateImage();
     this.expandNavigation();
     this.configureHighlightSize();
   }
 
   private updateImage(): void {
-    if (!this.button || !this.windowMedia) return;
+    if (!this.button || !this.windowMedia) throw new Error("Couldn't update image");
 
     this.button.style.visibility = "visible";
 
     const img = this.button.querySelector('img');
-    if (!img) return;
+    if (!img) throw new Error("Couldn't update image");
 
     const updateImg = (): void => {
       if (this.windowMedia.matches) {
@@ -42,7 +46,8 @@ export default class Header {
   };
 
   private expandNavigation(): void {
-    if (!this.button || !this.headerNav || !this.headerWrapper) return;
+    if (!this.button || !this.headerNav || !this.headerWrapper) 
+      throw new Error("Couldn't expand navigation");
 
     this.button.addEventListener('pointerup', () => {
       const img = this.button!.firstElementChild;
@@ -51,13 +56,27 @@ export default class Header {
         this.button!.classList.toggle('header--activated-mobile');
         this.headerWrapper!.classList.toggle('header--activated-mobile');
       }
+      else {
+        const layout = document.querySelector('body')
+        if (!layout) throw new Error("Couldn't add light mode setting");
+
+        const currentLightModeSetting : string = getComputedStyle(layout)
+          .getPropertyValue('--mode');
+
+        if (currentLightModeSetting === 'light') {
+          layout.style.setProperty('--mode', 'dark')
+        }
+        else {
+          layout.style.setProperty('--mode', 'light')
+        }
+      }
     });
   }
 
   private configureHighlightSize(): void {
 
     const calculateOffset = (): void => {
-      if (!this.headerWrapper || !this.button) return;
+      if (!this.headerWrapper || !this.button) throw new Error("Couldn't calculate Offset");
 
       const headerHeight: number = this.headerWrapper.getBoundingClientRect().height;
       const headerComputedStyle: CSSStyleDeclaration = getComputedStyle(this.headerWrapper);
