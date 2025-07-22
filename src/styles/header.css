@@ -192,6 +192,18 @@
   .header__menu--collapsed {
     display: block;
   }
+
+  .bt-spinner {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid #222;
+    border-top: 2px solid #03A9F4;
+    -webkit-animation: 1s spin linear infinite;
+    animation: 1s spin linear infinite;
+  }
+
 }
 
 @keyframes blink-caret {
