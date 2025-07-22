@@ -8,6 +8,9 @@
   min-width: fit-content;
   min-height: fit-content;
   --gap: calc(min(7vw, 3.7rem));
+  --highlight-width: 0;
+  --highlight-height: 0;
+
   gap: var(--gap);
   --padding: 0.4rem;
   padding-block-start: var(--padding);
@@ -15,6 +18,21 @@
   position: relative;
   box-shadow: 0 0.2rem 0.7rem rgba(0, 0, 0, 0.4);
   z-index: 3;
+
+  &.header--activated-mobile {
+
+    &::before {
+      top: 0;
+      left: 0;
+      content: '';
+      width: var(--highlight-width);
+      height: var(--highlight-height);
+      background-color: rgba(60, 69, 66, 0.297);
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+    }
+  }
 
   @media only screen and (min-width: 768px) {
     --gap: 3.7rem;
@@ -70,6 +88,10 @@
     display: flex;
     align-items: center;
     transition: filter 0.2s ease;
+
+    &.header--activated-mobile {
+      filter: brightness(1.4);
+    }
 
     &::after {
       content: '';
