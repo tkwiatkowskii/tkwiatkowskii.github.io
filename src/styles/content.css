@@ -2,8 +2,27 @@
   grid-area: content;
   background-color: #1b1b1f;
 
-  text-align: left;
-  letter-spacing: 1px;
-  width: auto;
-  padding-inline: 10rem;
+  .content__wrapper {
+    text-align: left;
+    white-space: normal;
+    margin: auto;
+    font-weight: 400;
+    padding-block: 1rem;
+    padding-inline: 1rem;
+
+    @media only screen and (min-width: 768px) {
+      padding-inline: 6rem;
+      padding-block: 2rem;
+    }
+
+    .content__section {
+      margin: auto;
+      max-width: 80ch;
+      font-size: 1rem;
+
+      p {
+        margin: 0 0 12px;
+      }
+    }
+  }
 }
