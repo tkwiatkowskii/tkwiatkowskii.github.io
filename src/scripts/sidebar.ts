@@ -11,6 +11,8 @@ export default class Sidebar {
     this.lightUpEffect = this.createLightEffect();
     this.sidebar = document.querySelector<HTMLDivElement>('.sidebar__navigation-wrapper');
     this.sidebarNavList = document.querySelector<HTMLOListElement>('.sidebar__navigation-list');
+
+    this.toggleSidebar();
   }
 
 
@@ -89,5 +91,9 @@ export default class Sidebar {
         listItem.setAttribute('data-text', textContent);
       });
     }
+  }
+
+  public static init() : void {
+    new Sidebar();
   }
 }
