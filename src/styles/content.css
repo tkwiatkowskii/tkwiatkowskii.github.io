@@ -5,7 +5,7 @@
   width: 100%;
 }
 
-.layout__content .content__wrapper {
+.content__wrapper {
   text-align: left;
   white-space: normal;
   font-weight: 400;
@@ -20,13 +20,13 @@
   }
 }
 
-.layout__content .content__wrapper .content__section {
+.content__section {
   margin: auto;
   max-width: 80ch;
   font-size: 1rem;
 }
 
-.layout__content .content__wrapper .content__section .section__item {
+.section__item {
   margin: 0 0 12px;
 }
 
@@ -50,7 +50,7 @@ h3.section__item {
   font-size: 1.6rem;
 }
 
-.layout__content .content__wrapper .content__section .section__code-fragment {
+.section__code-fragment {
   display: inline-block;
   color: rgb(134, 141, 154);
   background-color: #242432bf;
@@ -58,6 +58,6 @@ h3.section__item {
   font-family: Consolas, "Lucida Console", Menlo, Monaco, monospace;
 }
 
-.layout__content .content__wrapper .content__section .code__wrapper {
+.code__wrapper {
   overflow-x: auto;
 }

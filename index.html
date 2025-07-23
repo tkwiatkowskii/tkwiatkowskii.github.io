@@ -13,11 +13,13 @@
   </head>
 
   <body>
-    <div class="layout">
+    <div class="layout layout--collapsed">
       <header class="layout__header">
-        <button class="header__button">
-          <img src="./brightness.svg" alt="brightness icon" class="header__icon--dynamic" />
-        </button>        
+        <div class="header__buttons-wrapper">
+          <button class="header__button">
+            <img src="./brightness.svg" alt="brightness icon" class="header__icon--dynamic" />
+          </button>
+        </div>
         <h1 class="header__title">
           What even is
           <!-- The "d" is a workaround for consistent height on small screens -->
@@ -25,6 +27,9 @@
         </h1>
         <nav class="header__navigation-menu">
           <div class="navigation__icons-wrapper">
+            <button class="navigation__language-icon">
+              <img src="./language-icon.svg" alt="language icon" class="" />
+            </button>
             <button class="navigation__theme-icon">
               <img src="./brightness.svg" alt="brightness icon" class="" />
             </button>
@@ -48,6 +53,9 @@
             <li class="navigation__item--section">dsadas</li>
           </ol>
         </nav>
+        <button class="header__button--secondary">
+            <img src="./language-icon.svg" alt="language icon" class="header__icon--language" />
+        </button>
       </header>
 
       <nav class="layout__sidebar">
@@ -102,7 +110,8 @@
       </main>
 
       <footer class="layout__footer">
-
+        <address class="footer__contact-information">
+        </address>
       </footer>
     </div>
     <script type="module" src="./src/scripts/main.ts" defer></script>

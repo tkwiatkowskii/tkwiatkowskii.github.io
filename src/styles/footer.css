@@ -3,3 +3,7 @@
   background-color: #1b1b1f;
   border-top: 0.15rem solid #0d0d10;
 }
+
+.footer__contact-information {
+  display: flex;
+}

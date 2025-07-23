@@ -5,6 +5,7 @@ export default class Header {
   private themeButton: HTMLButtonElement | null;
   private siteBody: HTMLBodyElement | null;
   private windowMedia: MediaQueryList;
+  private buttonsWrapper: HTMLDivElement | null;
 
   constructor() {
     this.themeButton = document.querySelector<HTMLButtonElement>('.navigation__theme-icon');
@@ -12,6 +13,7 @@ export default class Header {
     this.headerNav = document.querySelector<HTMLDivElement>('.header__navigation-menu');
     this.headerWrapper = document.querySelector<HTMLDivElement>('.layout__header');
     this.siteBody = document.querySelector('body');
+    this.buttonsWrapper = document.querySelector<HTMLDivElement>('.header__buttons-wrapper');
     this.windowMedia = window.matchMedia('(min-width: 768px)');
 
     this.displayHeader();
@@ -20,8 +22,8 @@ export default class Header {
   private displayHeader() : void {
     this.updateImage();
     this.expandNavigation();
-    this.configureHighlightSize();
     this.changeThemeMode();
+    this.setAfter();
   }
 
   private updateImage(): void {
@@ -60,6 +62,7 @@ export default class Header {
         this.headerNav!.classList.toggle('header__menu--collapse');
         this.button!.classList.toggle('header--activated-mobile');
         this.headerWrapper!.classList.toggle('header--activated-mobile');
+        
       }
       else {
         if (!this.siteBody) throw new Error("Couldn't add light mode setting");
@@ -71,34 +74,9 @@ export default class Header {
       if (this.windowMedia.matches) {
         this.headerNav?.classList.remove('header__menu--collapse');
         this.headerWrapper?.classList.remove("header--activated-mobile");
+        this.button?.classList.remove("header--activated-mobile");
       };
     });
-  }
-
-  private configureHighlightSize(): void {
-
-    const calculateOffset = (): void => {
-      if (!this.headerWrapper || !this.button) throw new Error("Couldn't calculate Offset");
-
-      const headerHeight: number = this.headerWrapper.getBoundingClientRect().height;
-      const headerComputedStyle: CSSStyleDeclaration = getComputedStyle(this.headerWrapper);
-      const borderBottom: number = parseFloat(headerComputedStyle.borderBottomWidth) || 0;
-      const finalHeaderHeight: number = headerHeight - borderBottom;
-
-      const afterStyle: CSSStyleDeclaration = getComputedStyle(this.button, '::after');
-      const afterOffset: number = parseFloat(afterStyle.left);
-
-      const buttonRect: DOMRect = this.button.getBoundingClientRect();
-      const buttonLeft: number = buttonRect.left;
-
-      const afterLeft: number = buttonLeft + afterOffset;
-
-      this.headerWrapper.style.setProperty('--highlight-height', `${finalHeaderHeight}px`);
-      this.headerWrapper.style.setProperty('--highlight-width', `${afterLeft}px`);
-    };
-
-    calculateOffset();
-    window.addEventListener('resize', calculateOffset);
   }
 
   private changeThemeMode() : void {
@@ -121,6 +99,21 @@ export default class Header {
     else {
       this.siteBody.style.setProperty('--mode', 'light')
     }
+  }
+
+  private setAfter() : void {
+    const calculateOffsetAfter = () : void => {
+      if (!this.headerWrapper || !this.buttonsWrapper) throw new Error("Couldn't set ::after")
+
+      const headerRect : DOMRect = this.headerWrapper.getBoundingClientRect();
+      const buttonsRect : DOMRect = this.buttonsWrapper.getBoundingClientRect();
+
+      const offset : number = buttonsRect.right - headerRect.left; 
+      this.headerWrapper.style.setProperty('--after', `${offset}px`);
+    }
+
+    calculateOffsetAfter();
+    window.addEventListener('resize', calculateOffsetAfter);
   }
 
   public static async init() : Promise<void> {
