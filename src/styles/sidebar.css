@@ -6,7 +6,7 @@
   z-index: 3;
 }
 
-.layout__sidebar .sidebar__button {
+.sidebar__button {
   position: absolute;
   cursor: pointer;
   right: -4.1rem;
@@ -26,7 +26,7 @@
   }
 }
 
-.layout__sidebar .sidebar__navigation-wrapper {
+.sidebar__navigation-wrapper {
   position: relative;
   color: #B7B7B7;
   overflow: hidden;
@@ -35,7 +35,7 @@
   margin-block-start: 2rem;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper .sidebar__navigation-list {
+.sidebar__navigation-list {
   display: flex;
   gap: 1rem;
   flex-direction: column;
@@ -44,30 +44,24 @@
   text-align: start;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__navigation-list .sidebar__item--section {
+.sidebar__item--section {
   font-weight: 700;
   font-size: 1.1rem;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__navigation-list .sidebar__item--subsection {
+.sidebar__item--subsection {
   color: #918d92;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__navigation-list .sidebar__item--section,
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__navigation-list .sidebar__item--subsection {
+.sidebar__item--section,
+.sidebar__item--subsection {
   display: block;
   height: 1.5rem;
   position: relative;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__navigation-list .sidebar__item--section::after,
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__navigation-list .sidebar__item--subsection::after {
+.sidebar__item--section::after,
+.sidebar__item--subsection::after {
   content: attr(data-text); 
   position: absolute;
   top: 0;
@@ -87,28 +81,25 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .layout__sidebar .sidebar__navigation-wrapper 
-  .sidebar__navigation-list .sidebar__item--section:hover::after,
-  .layout__sidebar .sidebar__navigation-wrapper 
-  .sidebar__navigation-list .sidebar__item--subsection:hover::after {
+  .sidebar__item--section:hover::after,
+  .sidebar__item--subsection:hover::after {
     opacity: 1;
   }
 }
 
-.layout__sidebar .sidebar__navigation-wrapper .sidebar__effect-container,
-.layout__sidebar .sidebar__navigation-wrapper .sidebar__effect {
+.sidebar__effect-container,
+.sidebar__effect {
   width: 2px;
   right: 10%;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper .sidebar__effect-container {
+.sidebar__effect-container {
   position: absolute;
   background-color: rgba(125, 115, 115, 0.244);
   height: 100%;
 }
 
-.layout__sidebar .sidebar__navigation-wrapper 
-.sidebar__effect-container .sidebar__effect {
+.sidebar__effect {
   top: 0;
   position: absolute;
   width: 100%;
