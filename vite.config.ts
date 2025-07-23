@@ -1,39 +1,43 @@
 import { defineConfig } from 'vite';
 import nestingCSS from 'postcss-nesting';
+import checker from 'vite-plugin-checker';
+
+const cssConfig = {
+  postcss: {
+    plugins: [nestingCSS()],
+  },
+};
 
 export default defineConfig(({ command }) => {
+  const common = {
+    base: '/',
+    css: cssConfig,
+    plugins: [
+      checker({ typescript: true }),
+    ],
+  };
+
   if (command === 'serve') {
     return {
-      base: '/',
+      ...common,
       server: {
         open: true,
         port: 8000,
         watch: {
           usePolling: true,
           interval: 500,
-        }
-      },
-      css: {
-        postcss: {
-          plugins: [nestingCSS()]
         },
-      }
-    };
-
-  } else {
-    return {
-      base: '/',
-      build: {
-        outDir: 'dist',
-        sourcemap: true,
-        minify: true,
-        emptyOutDir: true,
       },
-      css: {
-        postcss: {
-          plugins: [nestingCSS()]
-        },
-      }
     };
   }
+
+  return {
+    ...common,
+    build: {
+      outDir: 'dist',
+      sourcemap: true,
+      minify: true,
+      emptyOutDir: true,
+    },
+  };
 });
