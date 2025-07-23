@@ -15,3 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
       Initialization error: ${error instanceof Error ? error.message : error}`);
   });
 });
+
+import './prism.js';
