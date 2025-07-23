@@ -1,6 +1,7 @@
 .layout__content {
   grid-area: content;
   background-color: #1b1b1f;
+  width: 100vw;
 
   .content__wrapper {
     text-align: left;
@@ -45,6 +46,10 @@
         background-color: rgb(40, 42, 54);
         padding: 2px 4px;
         font-family: Consolas, "Lucida Console", Menlo, Monaco, monospace;
+      }
+
+      .code__wrapper {
+        overflow-x: auto;
       }
     }
   }
