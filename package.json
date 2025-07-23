@@ -12,6 +12,7 @@
     "postcss": "^8.5.6",
     "postcss-nesting": "^13.0.2",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vite-plugin-checker": "^0.10.1"
   }
 }
