@@ -52,7 +52,7 @@ pre[class*="language-"] ::selection {
 pre[class*="language-"] {
   margin: 0.5rem 0;
   padding: 1em;
-  background: rgb(40, 42, 54);
+  background: #242432bf;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;

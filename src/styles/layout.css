@@ -7,8 +7,10 @@ body {
   width: 100%;
   color-scheme: light dark;
   --mode: dark;
+}
 
-  @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
+  body {
     --mode: light;
   }
 }
@@ -26,23 +28,24 @@ body {
   grid-template-rows: auto 1fr auto;
   transition: grid-template-columns 0.3s ease-in-out;
   overflow: hidden;
+}
 
+.layout .layout__sidebar {
+  display: none;
+}
 
-  .layout__sidebar {
-    display: none;
-  }
-
-  @media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {
+  .layout {
     grid-template-areas:
       "header header"
       "sidebar content"
       "footer footer";
     grid-template-columns: min(14rem, 25vw) 1fr;
     grid-template-rows: 4rem 1fr 4rem;
+  }
 
-    .layout__sidebar {
-      display: block;
-    }
+  .layout .layout__sidebar {
+    display: block;
   }
 }
 
