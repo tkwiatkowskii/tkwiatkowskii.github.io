@@ -3,8 +3,11 @@ body {
   font-size: 16px;
   color: rgb(223, 223, 214);
   font-weight: 400;
+  height: 100%;
+  width: 100%;
   color-scheme: light dark;
-  --mode: light;
+  overflow: hidden;
+  --mode: dark;
 
   @media (prefers-color-scheme: light) {
     --mode: light;
@@ -42,6 +45,8 @@ body {
   }
 }
 
-.layout--collapsed {
-  grid-template-columns: 0 1fr;
+@media only screen and (min-width: 768px) {
+  .layout--collapsed {
+    grid-template-columns: 0 1fr;
+  }
 }
