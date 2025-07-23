@@ -1,9 +1,11 @@
 .layout__sidebar {
   grid-area: sidebar;
+  height: 100vh;
   position: sticky;
   background-color: #161618;
   box-shadow: 0.1rem 0 0.5rem rgba(0, 0, 0, 0.5);
   z-index: 3;
+  top: 0;
 }
 
 .sidebar__button {
