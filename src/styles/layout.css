@@ -6,7 +6,6 @@ body {
   height: 100%;
   width: 100%;
   color-scheme: light dark;
-  overflow: hidden;
   --mode: dark;
 
   @media (prefers-color-scheme: light) {
@@ -26,6 +25,8 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
   transition: grid-template-columns 0.3s ease-in-out;
+  overflow: hidden;
+
 
   .layout__sidebar {
     display: none;

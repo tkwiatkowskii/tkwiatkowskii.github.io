@@ -50,7 +50,7 @@
     }
 
     .header__title--effect {
-      background: linear-gradient(90deg, #5c62b8, #b94ba9);
+      background: linear-gradient(90deg, #bd93f9, #ff79c6);
       background-clip: text;
       position: relative;
       -webkit-background-clip: text;
