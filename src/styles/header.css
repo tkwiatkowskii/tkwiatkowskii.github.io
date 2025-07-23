@@ -6,7 +6,7 @@
   flex-wrap: nowrap;
   align-items: center;
   min-width: fit-content;
-  min-height: fit-content;
+  min-height: auto;
   --gap: calc(min(7vw, 3.7rem));
   --highlight-width: 0;
   --highlight-height: 0;
@@ -36,7 +36,6 @@
 @media only screen and (min-width: 768px) {
   .layout__header {
     --gap: 2.9rem;
-    --padding: 0;
   }
 }
 
@@ -167,7 +166,7 @@
   position: absolute;
   width: auto;
   height: auto;
-  gap: 0.5rem;
+  gap: 0.7rem;
   top: 6%;
   right: 0;
   margin-inline-end: min(3rem, 10vw);
