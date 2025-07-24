@@ -1,8 +1,8 @@
 .layout__footer {
   grid-area: footer;
-  background-color: #1b1b1f;
-  border-top: 0.15rem solid #0d0d10;
-  color: #918d92;
+  background-color: var(--background-color-main);
+  border-top: 0.15rem solid var(--accent-color-secondary);
+  color: var(--font-color-tertiary);
   z-index: 5;
   padding-inline: 1rem;
   padding-block: 0.7rem;
@@ -14,7 +14,7 @@
 .footer__github-icon {
   height: 2rem;
   width: 2rem;
-  filter: brightness(0.7);
+  filter: brightness(var(--filter-github-icon));
   transition: filter 0.2s ease;
 }
 
@@ -25,5 +25,5 @@
 }
 
 .footer__github-icon:hover {
-  filter: brightness(1.4);
+  filter: brightness(var(--filter-light-up));
 }

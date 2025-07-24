@@ -2,7 +2,7 @@
   grid-area: sidebar;
   height: 100vh;
   position: sticky;
-  background-color: #161618;
+  background-color: var(--background-color-secondary);
   box-shadow: 0.1rem 0 0.5rem rgba(0, 0, 0, 0.5);
   z-index: 3;
   top: 0;
@@ -16,15 +16,16 @@
   padding: 0.7rem;
   border-radius: 20rem;
   background-color: transparent;
+  filter: brightness(var(--filter));
 }
 
 .layout__sidebar .sidebar__button:active {
-  background-color: rgba(125, 115, 115, 0.131);
+  background-color: var(--background-color-hover);
 }
 
 @media only screen and (min-width: 768px) {
   .layout__sidebar .sidebar__button:hover {
-    background-color: rgba(125, 115, 115, 0.131);
+    background-color: var(--background-color-hover);
   }
 }
 
@@ -36,7 +37,7 @@
 
 .sidebar__navigation-wrapper {
   position: relative;
-  color: #B7B7B7;
+  color: var(--font-color-secondary);
   overflow: hidden;
   min-height: fit-content;
   margin-inline-start: 2rem;
@@ -58,7 +59,7 @@
 }
 
 .sidebar__item--subsection {
-  color: #918d92;
+  color: var(--font-color-tertiary);
 }
 
 .sidebar__item--section,
@@ -103,7 +104,7 @@
 
 .sidebar__effect-container {
   position: absolute;
-  background-color: rgba(125, 115, 115, 0.244);
+  background-color: var(--accent-color-main);
   height: 100%;
 }
 
@@ -111,7 +112,7 @@
   top: 0;
   position: absolute;
   width: 100%;
-  background-color: rgba(239, 230, 230, 0.244);
+  background-color: var(--accent-color-tertiary);
   border-radius: 10rem;
   z-index: 2;
   transition: transform 0.2s ease, height 0.1s ease, opacity 0.3s ease;

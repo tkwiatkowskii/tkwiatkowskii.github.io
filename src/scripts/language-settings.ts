@@ -76,12 +76,10 @@ export default class LanguageConfig {
 
 
     if (preferredLanguage === 'pl' && currentPath !== '/src/locales/index.pl.html') {
-    window.location.href = '/src/locales/index.pl.html';
-  } else if (preferredLanguage === 'en' && currentPath !== '/index.html' && currentPath !== '/') {
-    // Treat '/' as same as '/index.html' to avoid unnecessary redirects
-    window.location.href = '/index.html';
-  }
-
+      window.location.href = '/src/locales/index.pl.html';
+    } else if (preferredLanguage === 'en' && currentPath !== '/index.html' && currentPath !== '/') {
+      window.location.href = '/index.html';
+    }
     else {
       return;
     }

@@ -1,24 +1,95 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
-  color: rgb(223, 223, 214);
   font-weight: 400;
   height: 100%;
   width: 100%;
   color-scheme: light dark;
-  --mode: dark;
 }
 
-@media (prefers-color-scheme: light) {
-  body {
-    --mode: light;
-  }
+.layout[data-theme='dark'] {
+  --font-color-main: rgb(223, 223, 214);
+  --font-color-secondary: #B7B7B7;
+  --font-color-tertiary: #918d92;
+
+  --accent-color-main: rgba(125, 115, 115, 0.244);
+  --accent-color-secondary: #0d0d10;
+  --accent-color-tertiary: rgba(144, 133, 133, 0.547);
+
+  --background-color-main: #1b1b1f;
+  --background-color-secondary: #161618;
+  --background-color-highlight: rgba(60, 69, 66, 0.297);
+  --background-color-dropdown: #242432;
+  --background-color-hover: rgba(125, 115, 115, 0.131);
+
+  --light-up-color: rgba(239, 230, 230, 0.244);
+
+  --code-fragment-color: #242432bf;
+  --code-fragment-font-color: rgb(134, 141, 154);
+
+  --code-block-background-color: #242432bf;
+  --code-block-selection-color: #7373842f;
+  --code-block-line-numbers-color: #868d9a;
+  --code-block-text-color: rgb(248, 248, 242);
+
+  --token-operator-color: #ff79c6;
+  --token-comment-color: #6272a4;
+  --token-constant-color: #bd93f9;
+  --token-string-color: #f1fa8c;
+  --token-punctuation-color: #f8f8f2;
+  --token-keyword-color: #ff79c6;
+  --token-function-color: #8be9fd;
+  --token-variable-color: #f8f8f2;
+
+  --filter: 1;
+  --filter-light-up: 1.4;
+  --filter-github-icon: 0.7;
+}
+
+.layout[data-theme='light'] {
+  --font-color-main: rgb(49, 49, 48);
+  --font-color-secondary: rgb(49, 49, 48);
+  --font-color-tertiary: rgba(49, 49, 48, 0.898);
+
+  --accent-color-main: rgba(125, 115, 115, 0.486);
+  --accent-color-secondary: rgb(49, 49, 48);
+  --accent-color-tertiary: rgb(49, 49, 48);
+
+  --background-color-main: rgb(255, 255, 255);
+  --background-color-secondary: rgb(247, 244, 243);
+  --background-color-highlight: rgba(60, 69, 66, 0.297);
+  --background-color-dropdown: #242432;
+  --background-color-hover: rgba(188, 179, 179, 0.131);
+
+  --light-up-color: rgba(239, 230, 230, 0.244);
+
+  --code-fragment-color: #f7f4f3;
+  --code-fragment-font-color: rgb(113, 111, 110);
+
+  --code-block-background-color: rgb(247, 244, 243);
+  --code-block-selection-color: #7373842f;
+  --code-block-line-numbers-color: rgba(49, 49, 48, 0.463);
+  --code-block-text-color: rgb(49, 49, 48);
+
+  --token-operator-color: rgb(166, 127, 89);
+  --token-comment-color: rgb(112, 128, 144);
+  --token-constant-color: rgb(49, 49, 48);
+  --token-string-color: #f1fa8c;
+  --token-punctuation-color: rgb(112, 128, 144);
+  --token-keyword-color: rgb(0, 119, 170);
+  --token-function-color: rgb(221, 74, 104);
+  --token-variable-color: rgb(49, 49, 48);
+
+  --filter: 0.2;
+  --filter-light-up: 0.7;
+  --filter-github-icon: 0.2;
 }
 
 .layout {
   display: grid;
   height: 100vh;
   width: 100vw;
+  color: var(--font-color-main);
   background-color: #181A20;
   grid-template-areas:
     "header"
@@ -54,3 +125,4 @@ body {
     grid-template-columns: 0 1fr;
   }
 }
+
