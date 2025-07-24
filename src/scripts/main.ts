@@ -1,4 +1,4 @@
-import '../styles/main.css';
+import '/src/styles/main.css';
 
 import Sidebar from "./sidebar";
 import Header from "./header";

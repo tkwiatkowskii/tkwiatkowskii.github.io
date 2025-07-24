@@ -27,6 +27,10 @@
       </h1>
       <nav class="header__navigation-menu">
         <div class="navigation__icons-wrapper">
+          <div class="header__language-dropdown header__language">
+            <button class="header__language--en header__language">en</button>
+            <button class="header__language--pl header__language">pl</button>
+          </div>
           <button class="navigation__language-icon header__language-icon">
             <img src="/language-icon.svg" alt="language icon" class="" />
           </button>
@@ -53,9 +57,15 @@
           <li class="navigation__item--section">dsadas</li>
         </ol>
       </nav>
-      <button class="header__button--secondary header__language-icon">
-        <img src="/language-icon.svg" alt="language icon" />
-      </button>
+      <div class="header__language-wrapper">
+        <button class="header__button--secondary header__language-icon">
+          <img src="/language-icon.svg" alt="language icon" />
+        </button>
+        <div class="header__language-dropdown">
+          <button class="header__language--en header__language">en</button>
+          <button class="header__language--pl header__language">pl</button>
+        </div>
+      </div>
     </header>
 
     <nav class="layout__sidebar">
@@ -151,7 +161,7 @@
         <img src="/github-mark-white.svg" alt="github link icon">
       </a>
       <address class="footer__contact-information">
-        tomaszkwiatkowski191@gmail.com
+        <a href="mailto:tomaszkwiatkowski191@gmail.com">tomaszkwiatkowski191@gmail.com</a>
       </address>
     </footer>
   </div>
