@@ -117,13 +117,13 @@ pre[class*="language-"] {
 
 .token.class-name,
 .token.function {
-  color: #dd4a68;
+  color: #8be9fd;
 }
 
 .token.important,
 .token.regex,
 .token.variable {
-  color: #e90;
+  color: #f8f8f2;
 }
 
 .token.bold,

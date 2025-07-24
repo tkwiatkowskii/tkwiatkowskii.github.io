@@ -1,4 +1,4 @@
-export default async function typewriterEffect() : Promise<void> {
+export async function typewriterEffect() : Promise<void> {
   const textElement = document.querySelector<HTMLSpanElement>
     ('.header__title--effect');
     

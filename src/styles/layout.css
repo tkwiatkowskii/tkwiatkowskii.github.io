@@ -41,7 +41,7 @@ body {
       "sidebar content"
       "footer footer";
     grid-template-columns: min(14rem, 25vw) 1fr;
-    grid-template-rows: 4rem 1fr 4rem;
+    grid-template-rows: 4rem 1fr auto;
   }
 
   .layout .layout__sidebar {

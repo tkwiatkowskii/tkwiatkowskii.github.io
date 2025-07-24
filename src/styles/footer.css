@@ -4,8 +4,26 @@
   border-top: 0.15rem solid #0d0d10;
   color: #918d92;
   z-index: 5;
+  padding-inline: 1rem;
+  padding-block: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.footer__contact-information {
-  display: flex;
+.footer__github-icon {
+  height: 2rem;
+  width: 2rem;
+  filter: brightness(0.7);
+  transition: filter 0.2s ease;
+}
+
+@media only screen and (min-width: 768px) {
+  .layout__footer {
+    padding-inline: 1.5rem;
+  }
+}
+
+.footer__github-icon:hover {
+  filter: brightness(1.4);
 }

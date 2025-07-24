@@ -1,6 +1,8 @@
-import typewriterEffect from "./typewriter";
+import '../styles/main.css';
+
 import Sidebar from "./sidebar";
 import Header from "./header";
+import { typewriterEffect } from "./typewriter.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   (async () => {
