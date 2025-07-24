@@ -14,6 +14,7 @@ export default class LanguageConfig {
     this.englishLanguageButtons = Array.from(document.querySelectorAll<HTMLButtonElement>
       ('.header__language--en'));
 
+    this.redirectOnLocalStorage();
     this.setupLanguageDropdowns();
     this.changeLanguages();
   }
@@ -39,6 +40,8 @@ export default class LanguageConfig {
   }
 
   private setLanguage(language : string) : void {
+    localStorage.setItem('preferredLanguage', language);
+
     if (language === 'pl') {
       window.location.href = '/src/locales/index.pl.html';
     }
@@ -55,7 +58,6 @@ export default class LanguageConfig {
       });
     });
 
-  // Add event listeners for all English language buttons
   this.englishLanguageButtons.forEach((btn) => {
     btn.addEventListener('pointerup', (event) => {
       event.stopPropagation();
@@ -66,5 +68,22 @@ export default class LanguageConfig {
 
   public static languageInit() : void {
     new LanguageConfig();
+  }
+
+  private redirectOnLocalStorage() : void {
+    const preferredLanguage : string | null = localStorage.getItem('preferredLanguage');
+    const currentPath : string = window.location.pathname;
+
+
+    if (preferredLanguage === 'pl' && currentPath !== '/src/locales/index.pl.html') {
+    window.location.href = '/src/locales/index.pl.html';
+  } else if (preferredLanguage === 'en' && currentPath !== '/index.html' && currentPath !== '/') {
+    // Treat '/' as same as '/index.html' to avoid unnecessary redirects
+    window.location.href = '/index.html';
+  }
+
+    else {
+      return;
+    }
   }
 }
