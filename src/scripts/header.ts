@@ -6,6 +6,7 @@ export default class Header {
   private siteBody: HTMLBodyElement | null;
   private windowMedia: MediaQueryList;
   private buttonsWrapper: HTMLDivElement | null;
+  private languageButton: NodeListOf<HTMLButtonElement>
 
   constructor() {
     this.themeButton = document.querySelector<HTMLButtonElement>('.navigation__theme-icon');
@@ -14,6 +15,7 @@ export default class Header {
     this.headerWrapper = document.querySelector<HTMLDivElement>('.layout__header');
     this.siteBody = document.querySelector('body');
     this.buttonsWrapper = document.querySelector<HTMLDivElement>('.header__buttons-wrapper');
+    this.languageButton = document.querySelectorAll<HTMLButtonElement>('.header__language-icon');
     this.windowMedia = window.matchMedia('(min-width: 768px)');
 
     this.displayHeader();
@@ -24,6 +26,7 @@ export default class Header {
     this.expandNavigation();
     this.changeThemeMode();
     this.setAfter();
+    this.switchLanguage();
   }
 
   private updateImage(): void {
@@ -36,12 +39,12 @@ export default class Header {
 
     const updateImg = () : void => {
       if (this.windowMedia.matches) {
-        img.src = './brightness.svg';
+        img.src = '/brightness.svg';
         img.alt = 'Theme icon';
         img.classList.add('header__icon--theme');
         img.classList.remove('header__icon--menu');
       } else {
-        img.src = './menu-icon.svg';
+        img.src = '/menu-icon.svg';
         img.alt = 'Menu icon';
         img.classList.add('header__icon--menu');
         img.classList.remove('header__icon--theme');
@@ -112,8 +115,18 @@ export default class Header {
       this.headerWrapper.style.setProperty('--after', `${offset}px`);
     }
 
-    calculateOffsetAfter();
     window.addEventListener('resize', calculateOffsetAfter);
+    setTimeout(() => {
+      calculateOffsetAfter();
+    }, 1);
+  }
+
+  private switchLanguage() : void {
+    this.languageButton.forEach(button => {
+      button.addEventListener('click', () => {
+        window.location.href = `/src/locales/index.pl.html`;
+      })
+    });
   }
 
   public static async init() : Promise<void> {

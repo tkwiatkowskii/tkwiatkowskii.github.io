@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import nestingCSS from 'postcss-nesting';
 import checker from 'vite-plugin-checker';
+import * as path from 'path';
 
 const cssConfig = {
   postcss: {
@@ -38,6 +39,13 @@ export default defineConfig(({ command }) => {
       sourcemap: true,
       minify: true,
       emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          en: path.resolve(__dirname, 'src/locales/index.en.html'),
+          pl: path.resolve(__dirname, 'src/locales/index.pl.html'),
+        },
+      },
     },
   };
 });

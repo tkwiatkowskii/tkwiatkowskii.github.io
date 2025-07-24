@@ -200,7 +200,7 @@
   counter-reset: section;
 }
 
-.navigation__item--section::before {
+.navigation__sublist::before {
   position: absolute;
   content: '';
   top: 3.3rem;
