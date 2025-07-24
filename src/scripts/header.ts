@@ -1,6 +1,7 @@
 import LanguageConfig from "./language-settings";
 
 export default class Header {
+  private layout: HTMLDivElement | null;
   private button: HTMLButtonElement | null;
   private headerNav: HTMLDivElement | null;
   private headerWrapper: HTMLDivElement | null;
@@ -10,6 +11,7 @@ export default class Header {
   private buttonsWrapper: HTMLDivElement | null;
 
   constructor() {
+    this.layout = document.querySelector<HTMLDivElement>('.layout');
     this.themeButton = document.querySelector<HTMLButtonElement>('.navigation__theme-icon');
     this.button = document.querySelector<HTMLButtonElement>('.header__button');
     this.headerNav = document.querySelector<HTMLDivElement>('.header__navigation-menu');
@@ -91,16 +93,14 @@ export default class Header {
   }
 
   private toggleTheme() : void {
-    if (!this.siteBody) throw new Error("Couldn't add theme event handler");
+    if(!this.layout) throw new Error("Something went wrong with the layout");
+    const currentTheme : string = this.layout.getAttribute('data-theme')!;
 
-    const currentThemeSetting : string = getComputedStyle(this.siteBody)
-      .getPropertyValue('--mode');
-
-    if (currentThemeSetting === 'light') {
-      this.siteBody.style.setProperty('--mode', 'dark')
+    if (currentTheme === 'dark') {
+      this.layout.setAttribute('data-theme', 'light');
     }
     else {
-      this.siteBody.style.setProperty('--mode', 'light')
+      this.layout.setAttribute('data-theme', 'dark');
     }
   }
 
