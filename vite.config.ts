@@ -42,7 +42,6 @@ export default defineConfig(({ command }) => {
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
-          en: path.resolve(__dirname, 'src/locales/index.en.html'),
           pl: path.resolve(__dirname, 'src/locales/index.pl.html'),
         },
       },

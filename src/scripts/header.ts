@@ -1,3 +1,5 @@
+import LanguageConfig from "./language-settings";
+
 export default class Header {
   private button: HTMLButtonElement | null;
   private headerNav: HTMLDivElement | null;
@@ -6,7 +8,6 @@ export default class Header {
   private siteBody: HTMLBodyElement | null;
   private windowMedia: MediaQueryList;
   private buttonsWrapper: HTMLDivElement | null;
-  private languageButton: NodeListOf<HTMLButtonElement>
 
   constructor() {
     this.themeButton = document.querySelector<HTMLButtonElement>('.navigation__theme-icon');
@@ -15,7 +16,6 @@ export default class Header {
     this.headerWrapper = document.querySelector<HTMLDivElement>('.layout__header');
     this.siteBody = document.querySelector('body');
     this.buttonsWrapper = document.querySelector<HTMLDivElement>('.header__buttons-wrapper');
-    this.languageButton = document.querySelectorAll<HTMLButtonElement>('.header__language-icon');
     this.windowMedia = window.matchMedia('(min-width: 768px)');
 
     this.displayHeader();
@@ -26,7 +26,7 @@ export default class Header {
     this.expandNavigation();
     this.changeThemeMode();
     this.setAfter();
-    this.switchLanguage();
+    LanguageConfig.languageInit();
   }
 
   private updateImage(): void {
@@ -119,14 +119,6 @@ export default class Header {
     setTimeout(() => {
       calculateOffsetAfter();
     }, 1);
-  }
-
-  private switchLanguage() : void {
-    this.languageButton.forEach(button => {
-      button.addEventListener('click', () => {
-        window.location.href = `/src/locales/index.pl.html`;
-      })
-    });
   }
 
   public static async init() : Promise<void> {
