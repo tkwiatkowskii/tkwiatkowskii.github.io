@@ -151,8 +151,7 @@ pre[data-line] {
   left: 0;
   right: 0;
   padding: inherit 0;
-  background: hsla(24, 20%, 50%, 0.08);
-  background: rgba(68, 71, 90, 0.338);
+  background: var(--code-block-line-highlight-color);
   pointer-events: none;
   transform: translateY(0.46rem); 
   white-space: pre;
@@ -218,6 +217,7 @@ pre[class*="language-"].line-numbers {
 pre[class*="language-"].line-numbers > code {
   position: relative;
   white-space: inherit;
+  z-index: 1;
 }
 
 .line-numbers .line-numbers-rows {
