@@ -27,7 +27,7 @@
       </h1>
       <nav class="header__navigation-menu">
         <div class="navigation__icons-wrapper">
-          <div class="header__language-dropdown header__language">
+          <div class="header__language-dropdown">
             <button class="header__language--en header__language">en</button>
             <button class="header__language--pl header__language">pl</button>
           </div>
@@ -76,10 +76,10 @@
         <div class="sidebar__effect-container"></div>
         <ol class="sidebar__navigation-list">
           <li class="sidebar__item--section sidebar__item" tabindex="1">
-            dsaidsajn
+            Introduction
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="2">
-            dmskjndkjnas
+          <li class="sidebar__item--section sidebar__item" tabindex="2">
+            Composition
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="3">
             dsjndjsnj
@@ -92,44 +92,276 @@
           </li>
         </ol>
       </div>
-    </nav>
 
+    </nav>
     <main class="layout__content">
       <div class="content__wrapper">
         <div class="content__section">
           <section class="section__intro">
-            <h1 class="section__item"> sa asd</h1>
+            <h1 class="section__item">
+              Introduction
+            </h1>
             <p class="section__item">
-              dad dsadas dasd dsada sd sad asd sadas das das sad asds
-              <span class="section__code-fragment">for... of</span>
+              Dependency injection is a design pattern where objects receive their
+              dependencies from an external source rather than creating them internally.
+              This makes code less tightly coupled and easier to modify. While it can sound
+              complex, it's actually a straightforward idea that every programmer should
+              know. The main reasons to learn and use dependency injection are:
             </p>
-            <div class="code__wrapper">
-              <pre class="line-numbers language-csharp" data-line="3">
-                <code class="language-csharp">
-                class MyClass;
-                int x = 5;
-                for (int i = 0; i &lt; 1; i++)
-                {
-                  x++; dsadasd asdasda sdasdasdsad asdasdas. dasds ad as da sda sd as
-                };
-                </code>
-                </pre>
-            </div>
+            <ul class="section__list">
+              <li class="section__list-item">
+                Greater flexibility by decoupling components
+                and allowing easy replacement of implementations
+              </li>
+              <li class="section__list-item">
+                Simpler, more isolated testing by injecting mock or stub dependencies
+              </li>
+              <li class="section__list-item">
+                Improved maintainability and scalability as systems grow more complex
+              </li>
+            </ul>
             <div class="section__information-block">
               <div class="information__text">
                 <div class="information__beginning">
                   <img src="/information-icon.svg" class="section__info-icon" alt="information icon">
-                  <h3 class="section__item">dasdasd</h3>
+                  <h3 class="section__item">Do I need to know C# to understand this?</h3>
                 </div>
-                dsadasdasdsadasdas dsadas dasdas
+                The examples in this article do use specific C# related methods and keywords,
+                but the knowledge of C# is absolutely not needed to be able to read this article.
+                Focus on the general concepts and higher level ideas.
               </div>
             </div>
-            <h3 class="section__item">dsadasdas</h3>
+            <p class="section__item">
+              Before we get to it,
+              we must first talk about...
+            </p>
+          </section>
+          <section class="section__composition">
+            <h1 class="section__item">
+              Composition
+            </h1>
+            <p class="section__item">
+              Let's say we have a simple abstract
+              <span class="section__code-fragment">class Database</span>
+              that supports 3 actions: opening a connection to the database, closing
+              the connection and executing an SQL query that returns a IDataReader object.
+            </p>
             <ul class="section__list">
-              <li class="section__list-item">sadasdasd</li>
-              <li class="section__list-item">dasdasdasd</li>
-              <li class="section__list-item">dasdasdas</li>
+              <li class="section__list-item">
+                Opening a connection to the database.
+              </li>
+              <li class="section__list-item">
+                Closing the connection we opened.
+              </li>
+              <li class="section__list-item">
+                Executing an SQL query (returning an <span class="section__code-fragment">IDataReader</span>).
+              </li>
             </ul>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public abstract class Database
+                  {
+                      public required IDbConnection Connection { get; init; }
+
+                      public Database(IDbConnection connection)
+                      {
+                          Connection = connection;
+                      }
+
+                      public Database() { }
+
+                      public void Open()
+                      {
+                          if (Connection.State != ConnectionState.Open)
+                          {
+                              Connection.Open();
+                          }
+                      }
+
+                      public void Close()
+                      {
+                          if (Connection.State != ConnectionState.Closed)
+                          {
+                              Connection.Close();
+                          }
+                      }
+
+                      public abstract IDataReader ExecuteSqlQuery(
+                        string sql,
+                        CommandType commandType,
+                        params IDataParameter[] queryParameters);
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              We want to make two specific database subclasses that inherit from it.
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                One for
+                <span class="section__code-fragment">MySQL</span>
+              </li>
+              <li class="section__list-item">
+                One for
+                <span class="section__code-fragment">MongoDB</span>
+              </li>
+            </ul>
+            <p class="section__item">Here's the MySQL implementation</p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public sealed class MySql : Database 
+                  {
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          using var command = Connection.CreateCommand();
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                          {
+                              foreach (var param in queryParameters)
+                              {
+                                  command.Parameters.Add(param);
+                              }
+                          }
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              This works well.
+              <span class="section__code-fragment">MySQL</span>
+              is an SQL database, so it makes sense to override ExecuteSqlQuery.
+            </p>
+            <p class="section__item">
+              But here's what happens when we try to do the same for MongoDB:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp" data-line="8">
+                <code class="language-csharp">
+                  public sealed class MongoDb : Database
+                  {
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType,
+                          params IDataParameter[] queryParameters)
+                      {
+                          throw new NotImplementedException("MongoDB is a NoSQL database!");
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              We have a problem. The parent forces
+              <span class="section__code-fragment">MongoDB</span>
+              into declaring its own
+              <span class="section__code-fragment">ExecuteSqlQuery</span>
+              method even though it's
+              a NoSQL database so we end up with a method that only throws an error.
+            </p>
+            <p class="section__item">
+              We could instead make a
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor class</span>
+              that takes on the responsibility of providing a
+              <span class="section__code-fragment">ExecuteSqlQuery</span>
+              method to override.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class Database
+                  {
+                      public required IDbConnection Connection { get; init; }
+
+                      public Database(IDbConnection connection)
+                      {
+                          Connection = connection;
+                      }
+
+                      public Database() { }
+
+                      public void Open()
+                      {
+                          if (Connection.State != ConnectionState.Open)
+                          {
+                              Connection.Open();
+                          }
+                      }
+
+                      public void Close()
+                      {
+                          if (Connection.State != ConnectionState.Closed)
+                          {
+                              Connection.Close();
+                          }
+                      }
+                  };
+
+                  public abstract class DatabaseSqlQueryExecutor : Database
+                  {
+                      public abstract IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType,
+                          params IDataParameter[] queryParameters);
+                  }
+
+                  public sealed class MySql : DatabaseSqlQueryExecutor
+                  {
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          using var command = Connection.CreateCommand();
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                          {
+                              foreach (var param in queryParameters)
+                              {
+                                  command.Parameters.Add(param);
+                              }
+                          }
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              But this now quickly becomes a very awkward and cumbersome class hierarchy.
+              Alternatively we could make a separate NoSqlDatabase parent class.
+              Both of these approaches suffer from the issue of rigid class hierarchies.
+              Depending on how big the codebase is, this could cause expensive refactoring.
+            </p>
+          </section>
+          <div class="section__information-block">
+            <div class="information__text">
+              <div class="information__beginning">
+                <img src="/information-icon.svg" class="section__info-icon" alt="information icon">
+                <h3 class="section__item">dasdasd</h3>
+              </div>
+              dsadasdasdsadasdas dsadas dasdas
+            </div>
+          </div>
+          <h3 class="section__item">dsadasdas</h3>
+          <ul class="section__list">
+            <li class="section__list-item">sadasdasd</li>
+            <li class="section__list-item">dasdasdasd</li>
+            <li class="section__list-item">dasdasdas</li>
+          </ul>
           </section>
         </div>
       </div>
