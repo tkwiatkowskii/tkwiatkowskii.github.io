@@ -1,24 +1,25 @@
 import LanguageConfig from "./language-settings";
+import ThemeConfig from "./theme-settings";
 
 export default class Header {
-  private layout: HTMLDivElement | null;
   private button: HTMLButtonElement | null;
   private headerNav: HTMLDivElement | null;
   private headerWrapper: HTMLDivElement | null;
-  private themeButton: HTMLButtonElement | null;
   private siteBody: HTMLBodyElement | null;
   private windowMedia: MediaQueryList;
   private buttonsWrapper: HTMLDivElement | null;
+  private languageConfig: LanguageConfig;
+  private themeConfig: ThemeConfig
 
-  constructor() {
-    this.layout = document.querySelector<HTMLDivElement>('.layout');
-    this.themeButton = document.querySelector<HTMLButtonElement>('.navigation__theme-icon');
+  constructor(languageConfig : LanguageConfig, themeConfig : ThemeConfig) {
     this.button = document.querySelector<HTMLButtonElement>('.header__button');
     this.headerNav = document.querySelector<HTMLDivElement>('.header__navigation-menu');
     this.headerWrapper = document.querySelector<HTMLDivElement>('.layout__header');
     this.siteBody = document.querySelector('body');
     this.buttonsWrapper = document.querySelector<HTMLDivElement>('.header__buttons-wrapper');
     this.windowMedia = window.matchMedia('(min-width: 768px)');
+    this.languageConfig = languageConfig;
+    this.themeConfig = themeConfig;
 
     this.displayHeader();
   }
@@ -26,9 +27,9 @@ export default class Header {
   private displayHeader() : void {
     this.updateImage();
     this.expandNavigation();
-    this.changeThemeMode();
     this.setAfter();
-    LanguageConfig.languageInit();
+    this.languageConfig.init();
+    this.themeConfig.init();
   }
 
   private updateImage(): void {
@@ -71,7 +72,7 @@ export default class Header {
       }
       else {
         if (!this.siteBody) throw new Error("Couldn't add light mode setting");
-        this.toggleTheme();
+        this.themeConfig.toggleTheme();
       }
     });
 
@@ -82,26 +83,6 @@ export default class Header {
         this.button?.classList.remove("header--activated-mobile");
       };
     });
-  }
-
-  private changeThemeMode() : void {
-    if (!this.themeButton) throw new Error("Couldn't add theme event handler");
-
-    this.themeButton.addEventListener('pointerup', () => {
-      this.toggleTheme();
-    })
-  }
-
-  private toggleTheme() : void {
-    if(!this.layout) throw new Error("Something went wrong with the layout");
-    const currentTheme : string = this.layout.getAttribute('data-theme')!;
-
-    if (currentTheme === 'dark') {
-      this.layout.setAttribute('data-theme', 'light');
-    }
-    else {
-      this.layout.setAttribute('data-theme', 'dark');
-    }
   }
 
   private setAfter() : void {
@@ -122,6 +103,6 @@ export default class Header {
   }
 
   public static async init() : Promise<void> {
-    new Header();
+    new Header(new LanguageConfig(), new ThemeConfig());
   }
 }
