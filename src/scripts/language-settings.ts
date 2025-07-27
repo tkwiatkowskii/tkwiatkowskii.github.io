@@ -13,10 +13,6 @@ export default class LanguageConfig {
       ('.header__language--pl'));
     this.englishLanguageButtons = Array.from(document.querySelectorAll<HTMLButtonElement>
       ('.header__language--en'));
-
-    this.redirectOnPreferredLanguage();
-    this.setupLanguageDropdowns();
-    this.changeLanguages();
   }
   
   private setupLanguageDropdowns() : void {
@@ -66,10 +62,6 @@ export default class LanguageConfig {
     });
   }
 
-  public static languageInit() : void {
-    new LanguageConfig();
-  }
-
   private redirectOnPreferredLanguage() : void {
     if (!localStorage.getItem('preferredLanguage')) {
       this.redirectOnBrowserLanguage();
@@ -100,5 +92,11 @@ export default class LanguageConfig {
     else {
       window.location.href = '/src/locales/index.pl.html';
     }
+  }
+
+  public init() {
+    this.redirectOnPreferredLanguage();
+    this.setupLanguageDropdowns();
+    this.changeLanguages();
   }
 }
