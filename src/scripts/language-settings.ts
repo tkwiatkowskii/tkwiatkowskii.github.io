@@ -92,6 +92,7 @@ export default class LanguageConfig {
 
   private redirectOnBrowserLanguage() : void {
     const browserLanguage : string = navigator.language.split('-')[0];
+    localStorage.setItem('preferredLanguage', browserLanguage);
     
     if (!['en', 'pl'].includes(browserLanguage) || browserLanguage == 'en') {
       window.location.href = '/index.html';
