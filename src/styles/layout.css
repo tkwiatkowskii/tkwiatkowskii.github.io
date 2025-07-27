@@ -62,8 +62,8 @@ body {
   --background-color-main: rgb(255, 255, 255);
   --background-color-secondary: rgb(247, 244, 243);
   --background-color-highlight: rgba(60, 69, 66, 0.297);
-  --background-color-dropdown: #242432;
-  --background-color-hover: rgba(188, 179, 179, 0.131);
+  --background-color-dropdown: rgb(247, 244, 243);
+  --background-color-hover: rgba(188, 179, 179, 0.052);
 
   --information-background-color: rgb(247, 244, 243);
   --information-border-color: rgba(125, 115, 115, 0.486);
