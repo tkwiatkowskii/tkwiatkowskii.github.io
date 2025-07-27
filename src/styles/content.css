@@ -104,6 +104,7 @@ h3.section__item {
   display: block;
   min-width: 100%;
   min-height: fit-content;
+  margin-block: 1.4rem;
 }
 
 .section__list-item {
