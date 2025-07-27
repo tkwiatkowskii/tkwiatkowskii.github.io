@@ -152,7 +152,7 @@ pre[data-line] {
   padding: inherit 0;
   background: var(--code-block-line-highlight-color);
   pointer-events: none;
-  transform: translateY(0.46rem); 
+  transform: translateY(0.50rem); 
   white-space: pre;
 }
 
