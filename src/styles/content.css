@@ -84,6 +84,10 @@ h3.section__item {
   margin: 0;
 }
 
+.information__text h3 {
+  font-size: 1.2rem;
+}
+
 .information__beginning {
   display: flex;
   justify-content: flex-start;
