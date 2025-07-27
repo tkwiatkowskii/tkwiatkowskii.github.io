@@ -142,7 +142,7 @@ pre[class*="language-"] {
 /* Line Highlight Plugin */
 pre[data-line] {
   position: relative;
-  padding: 0.7em 0 0.7em 3em;
+  padding: 0.6em 0 0.6em 3em;
 }
 
 .line-highlight {

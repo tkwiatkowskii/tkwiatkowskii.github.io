@@ -28,6 +28,7 @@ export default class Header {
     this.updateImage();
     this.expandNavigation();
     this.setAfter();
+    
     this.languageConfig.init();
     this.themeConfig.init();
   }
