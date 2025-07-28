@@ -130,3 +130,14 @@ h3.section__item {
   top: 40%;
   background-color: var(--font-color-main);
 }
+
+.section__uml-wrapper {
+  display: block;
+  margin-block-start: 2rem;
+}
+
+figcaption {
+  padding-block-start: 0.5rem;
+  margin-block-end: 2rem;
+  color: var(--font-color-secondary);
+}
