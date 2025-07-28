@@ -95,7 +95,7 @@ body {
 
 .layout {
   display: grid;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   color: var(--font-color-main);
   background-color: #181A20;
@@ -107,6 +107,7 @@ body {
   grid-template-rows: auto 1fr auto;
   transition: grid-template-columns 0.3s ease-in-out;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .layout .layout__sidebar {

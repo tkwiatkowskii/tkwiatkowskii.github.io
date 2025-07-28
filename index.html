@@ -165,14 +165,21 @@
                 <code class="language-csharp">
                   public abstract class Database
                   {
-                      public required IDbConnection Connection { get; init; }
+                      private IDbConnection _connection;
+
+                      public required IDbConnection Connection
+                      {
+                          get => _connection;
+                          init => _connection = value 
+                            ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public Database() { }
 
                       public Database(IDbConnection connection)
                       {
                           Connection = connection;
                       }
-
-                      public Database() { }
 
                       public void Open()
                       {
@@ -191,9 +198,9 @@
                       }
 
                       public abstract IDataReader ExecuteSqlQuery(
-                        string sql,
-                        CommandType commandType,
-                        params IDataParameter[] queryParameters);
+                          string sql,
+                          CommandType commandType,
+                          params IDataParameter[] queryParameters);
                   }
                 </code>
               </pre>
@@ -208,31 +215,60 @@
               </li>
               <li class="section__list-item">
                 One for
-                <span class="section__code-fragment">MongoDB</span>
+                <span class="section__code-fragment">SQLServer</span>
               </li>
             </ul>
-            <p class="section__item">Here's the MySQL implementation</p>
+            <p class="section__item">Here are the MySQL and SQLServer implementations</p>
             <div class="code__wrapper">
               <pre class="line-numbers language-csharp">
                 <code class="language-csharp">
-                  public sealed class MySql : Database 
+                  public sealed class MySql : Database
                   {
+                      public MySql() : base() { }
+
+                      public MySql(MySqlConnection connection) : base(connection) { }
+
+                      public MySqlConnection MySqlConnection => (MySqlConnection)Connection;
+
                       public override IDataReader ExecuteSqlQuery(
                           string sql,
                           CommandType commandType = CommandType.Text,
                           params IDataParameter[] queryParameters)
                       {
-                          using var command = Connection.CreateCommand();
+                          MySqlCommand command = (MySqlCommand)Connection.CreateCommand();
+
                           command.CommandText = sql;
                           command.CommandType = commandType;
 
                           if (queryParameters != null)
-                          {
                               foreach (var param in queryParameters)
-                              {
                                   command.Parameters.Add(param);
-                              }
-                          }
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+
+                  public sealed class SqlServer : Database
+                  {
+                      public SqlServer() : base() { }
+
+                      public SqlServer(SqlConnection connection) : base(connection) { }
+
+                      public SqlConnection SqlConnection => (SqlConnection)Connection;
+
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          SqlCommand command = (SqlCommand)Connection.CreateCommand();
+
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                              foreach (var param in queryParameters)
+                                  command.Parameters.Add(param);
 
                           return command.ExecuteReader(CommandBehavior.CloseConnection);
                       }
@@ -243,55 +279,191 @@
             <p class="section__item">
               This works well.
               <span class="section__code-fragment">MySQL</span>
-              is an SQL database, so it makes sense to override ExecuteSqlQuery.
+              and
+              <span class="section__code-fragment">SQLServer</span>
+              are SQL databases, so it makes sense to override ExecuteSqlQuery.
+            </p>
+            <h3 class="section__item">
+              When inheritance forces the wrong behaviour.
+            </h3>
+            <p class="section__item">
+              Now let's assume we want to expand our hierarchy to also include our own
+              database
+              "<span class="section__code-fragment">SimpleDB</span>"
+              that supports opening and closing connections but not executing SQL queries.
             </p>
             <p class="section__item">
-              But here's what happens when we try to do the same for MongoDB:
+              Here's how it looks:
             </p>
             <div class="code__wrapper">
-              <pre class="line-numbers language-csharp" data-line="8">
+              <pre class="line-numbers language-csharp" data-line="12">
                 <code class="language-csharp">
-                  public sealed class MongoDb : Database
+                  public sealed class SimpleDb : Database
                   {
+                      public SimpleDb() : base() { }
+
+                      public SimpleDb(SimpleDbConnection connection) : base(connection) { }
+
+                      public SimpleDbConnection SimpleDbConnection => (SimpleDbConnection)Connection;
+
                       public override IDataReader ExecuteSqlQuery(
                           string sql,
-                          CommandType commandType,
+                          CommandType commandType = CommandType.Text,
                           params IDataParameter[] queryParameters)
                       {
-                          throw new NotImplementedException("MongoDB is a NoSQL database!");
+                          throw new NotImplementedException("SimpleDb doesn't support SQL queries!");
                       }
                   }
                 </code>
               </pre>
             </div>
             <p class="section__item">
-              We have a problem. The parent forces
-              <span class="section__code-fragment">MongoDB</span>
-              into declaring its own
-              <span class="section__code-fragment">ExecuteSqlQuery</span>
-              method even though it's
-              a NoSQL database so we end up with a method that only throws an error.
+              This feels wrong.
             </p>
             <p class="section__item">
-              We could instead make a
-              <span class="section__code-fragment">DatabaseSqlQueryExecutor class</span>
-              that takes on the responsibility of providing a
+              The base class <b>forces</b> SimpleDB to implement
               <span class="section__code-fragment">ExecuteSqlQuery</span>
-              method to override.
+              even though SimpleDB doesn't support SQL.
+              The only thing we can do is throw an exception,
+              which makes the method pointless.
+            </p>
+            <h2 class="section__item">
+              Attempted fix: Separate executor class
+            </h2>
+            <p class="section__item">
+              One way to avoid this is to move the SQL-specific behavior into its own class.
+              We can create a
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+              class that extends
+              <span class="section__code-fragment">Database</span>
+              and provides the
+              <span class="section__code-fragment">ExecuteSqlQuery</span>
+              method:
             </p>
             <div class="code__wrapper">
               <pre class="line-numbers language-csharp">
                 <code class="language-csharp">
-                  public class Database
+                  public abstract class DatabaseSqlQueryExecutor : Database
                   {
-                      public required IDbConnection Connection { get; init; }
+                      public DatabaseSqlQueryExecutor() : base() { }
 
-                      public Database(IDbConnection connection)
+                      public DatabaseSqlQueryExecutor(IDbConnection connection) : base(connection) { }
+
+                      public abstract IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType,
+                          params IDataParameter[] queryParameters);
+                  }
+
+                  public sealed class MySql : DatabaseSqlQueryExecutor
+                  {                      
+                      public MySql() : base() { }
+
+                      public MySql(MySqlConnection connection) : base(connection) { }
+
+                      public MySqlConnection MySqlConnection => (MySqlConnection)Connection;
+
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          MySqlCommand command = (MySqlCommand)Connection.CreateCommand();
+
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                              foreach (var param in queryParameters)
+                                  command.Parameters.Add(param);
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+
+                  public sealed class SqlServer : DatabaseSqlQueryExecutor
+                  {
+                     // ...
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              This way, SQL databases inherit from
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+              , while those that don't support SQL don't.
+            </p>
+            <h3 class="section__item">
+              When inheritance becomes a trap
+            </h3>
+            <p class="section__item">
+              We started with a simple
+              <span class="section__code-fragment">Database</span>
+              class. It had an
+              <span class="section__code-fragment">ExecuteSqlQuery()</span>
+              method,
+              and subclasses like
+              <span class="section__code-fragment">MySqlDatabase</span>
+              and
+              <span class="section__code-fragment">SqlServerDatabase</span>
+              inherited it.
+            </p>
+            <p class="section__item">
+              Then, we introduced an extra layer
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>.
+            </p>
+            <p class="section__item">
+              This now breaks everything that expected
+              <span class="section__code-fragment">Database</span>
+              to have the
+              <span class="section__code-fragment">ExecuteSqlQuery()</span>
+              method. If we keep adding database types
+              (e.g., different NoSQL databases),
+              we might need more subclasses, or entirely different classes like
+              <span class="section__code-fragment">NoSqlDatabase</span>
+              , making the hierarchy more
+              complex.
+            </p>
+            <p class="section__item">
+              We have coupled ourselves into a hierarchy that's too rigid.
+            </p>
+            <h2 class="section__item">
+              Can we do better?
+            </h2>
+            <p class="section__item">
+              Yes! Let's look at the three subclasses. They both share the methods
+              <span class="section__code-fragment">Open()</span>
+              and
+              <span class="section__code-fragment">Close()</span>
+              .
+            </p>
+            <p class="section__item">
+              Instead of baking these into a shared parent class,
+              we can extract this functionality into its own, independent class.
+            </p>
+            <h3 class="section__item">
+              Extracting connection management
+            </h3>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class DatabaseConnectionManager
+                  {
+                      private IDbConnection _connection;
+
+                      public required IDbConnection Connection
+                      {
+                          get => _connection;
+                          init => _connection = value 
+                            ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public DatabaseConnectionManager() { }
+
+                      public DatabaseConnectionManager(IDbConnection connection)
                       {
                           Connection = connection;
                       }
-
-                      public Database() { }
 
                       public void Open()
                       {
@@ -308,24 +480,152 @@
                               Connection.Close();
                           }
                       }
-                  };
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              Now,
+              <span class="section__code-fragment">
+                DatabaseConnectionManager
+              </span>
+              represents <b>only a connection to a database</b>, which each
+              of our subclasses have. We <em>can</em> make use of
+              the
+              <span class="section__code-fragment">
+                DatabaseConnectionManager
+              </span>
+              if we need to, but we don't <em>have to</em>.
+              If we introduce a Database that doesn't support
+              opening and closing connections we can just choose
+              to ignore it.
+            </p>
+            <h3 class="section__item">
+              From inheritance to composition
+            </h3>
+            <p class="section__item">
+              So how do we apply this to our database classes?
+              Instead of subclassing
+              <span class="section__code-fragment">Database</span>
+              , our database classes can instead compose a
+              <span class="section__code-fragment">DatabaseConnectionManager</span>
+              object.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+              public sealed class MySql
+              {
+                  private readonly DatabaseConnectionManager _connectionManager;
 
-                  public abstract class DatabaseSqlQueryExecutor : Database
+                  public required DatabaseConnectionManager ConnectionManager
                   {
-                      public abstract IDataReader ExecuteSqlQuery(
-                          string sql,
-                          CommandType commandType,
-                          params IDataParameter[] queryParameters);
+                      init => _connectionManager = value
+                          ?? throw new ArgumentNullException(nameof(ConnectionManager));
                   }
 
-                  public sealed class MySql : DatabaseSqlQueryExecutor
+                  public MySql() { }
+
+                  public MySql(DatabaseConnectionManager connectionManager)
                   {
-                      public override IDataReader ExecuteSqlQuery(
+                      ConnectionManager = connectionManager;
+                  }
+
+                  public MySqlConnection MySqlConnection => 
+                      (MySqlConnection)_connectionManager.Connection;
+
+                  public IDataReader ExecuteSqlQuery(
+                      string sql,
+                      CommandType commandType = CommandType.Text,
+                      params IDataParameter[] queryParameters)
+                  {
+                      MySqlCommand command = 
+                          (MySqlCommand)_connectionManager.Connection.CreateCommand();
+
+                      command.CommandText = sql;
+                      command.CommandType = commandType;
+
+                      if (queryParameters != null)
+                      {
+                          foreach (var param in queryParameters)
+                          {
+                              command.Parameters.Add(param);
+                          }
+                      }
+
+                      return command.ExecuteReader(CommandBehavior.CloseConnection);
+                  }
+
+                  public void Open() => _connectionManager.Open();
+                  public void Close() => _connectionManager.Close();
+              }
+
+              public sealed class SqlServer
+              {
+                  // ...
+              }
+
+              public sealed class SimpleDb
+              {
+                  private readonly DatabaseConnectionManager _connectionManager;
+
+                  public required DatabaseConnectionManager ConnectionManager
+                  {
+                      init => _connectionManager = value
+                          ?? throw new ArgumentNullException(nameof(value));
+                  }
+
+                  public SimpleDb() { }
+
+                  public SimpleDb(DatabaseConnectionManager connectionManager)
+                  {
+                      ConnectionManager = connectionManager;
+                  }
+
+                  public SimpleDbConnection SimpleDbConnection => 
+                      (SimpleDbConnection)_connectionManager.Connection;
+
+                  public IDbConnection SimpleDbConnection => _connectionManager.Connection;
+
+                  public void Open() => _connectionManager.Open();
+                  public void Close() => _connectionManager.Close();
+              }
+              </code>
+            </pre>
+            </div>
+            <h3 class="section__item">
+              Extracting query execution
+            </h3>
+            <p class="section__item">
+              Let's do the same for
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class DatabaseSqlQueryExecutor
+                  {
+                      private DatabaseConnectionManager _connectionManager;
+                      
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public DatabaseSqlQueryExecutor() { }
+
+                      public DatabaseSqlQueryExecutor(DatabaseConnectionManager connectionManager)
+                      {
+                          ConnectionManager = connectionManager;
+                      }
+
+                      public IDataReader ExecuteSqlQuery(
                           string sql,
                           CommandType commandType = CommandType.Text,
                           params IDataParameter[] queryParameters)
                       {
-                          using var command = Connection.CreateCommand();
+                          var command = _connectionManager.Connection.CreateCommand();
                           command.CommandText = sql;
                           command.CommandType = commandType;
 
@@ -340,15 +640,124 @@
                           return command.ExecuteReader(CommandBehavior.CloseConnection);
                       }
                   }
+                
                 </code>
               </pre>
             </div>
             <p class="section__item">
-              But this now quickly becomes a very awkward and cumbersome class hierarchy.
-              Alternatively we could make a separate NoSqlDatabase parent class.
-              Both of these approaches suffer from the issue of rigid class hierarchies.
-              Depending on how big the codebase is, this could cause expensive refactoring.
+              Now if a class needs to run SQL queries, we simply <em>inject</em> a
+              <span class="section__code-fragment">
+                DatabaseSqlQueryExecutor
+              </span>
             </p>
+            <h3 class="section__item">
+              Putting it together
+            </h3>
+            <p class="section__item">
+              Here's our Improved
+              <span class="section__code-fragment">
+                MySql
+              </span>
+              and
+              <span class="section__code-fragment">
+                SqlServer
+              </span>
+              classes using both components.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public sealed class MySql
+                  {
+                      private readonly DatabaseConnectionManager _connectionManager;
+                      private readonly DatabaseSqlQueryExecutor _queryExecutor;
+
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(ConnectionManager));
+                      }
+
+                      public required DatabaseSqlQueryExecutor QueryExecutor
+                      {
+                          init => _queryExecutor = value
+                              ?? throw new ArgumentNullException(nameof(QueryExecutor));
+                      }
+
+                      public MySql() { }
+
+                      public MySql(
+                          DatabaseConnectionManager connectionManager,
+                          DatabaseSqlQueryExecutor queryExecutor)
+                      {
+                          ConnectionManager = connectionManager;
+                          QueryExecutor = queryExecutor;
+                      }
+
+                      public MySqlConnection MySqlConnection =>
+                          (MySqlConnection)_connectionManager.Connection;
+
+                      public MySqlDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          return (MySqlDataReader)
+                              _queryExecutor.ExecuteSqlQuery(sql, commandType, queryParameters);
+                      }
+
+                      public void Open() => _connectionManager.Open();
+                      public void Close() => _connectionManager.Close();
+                  }
+
+                  public sealed class SqlServer
+                  {
+                      // ...
+                  }
+                </code>
+              </pre>
+            </div>
+            <h3 class="section__item">
+              Why this is better
+            </h3>
+            <p class="section__item">
+              This is the beauty of composition:
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                <b>Need connection management?</b> Use
+                <span class="section__code-fragment">DatabaseConnectionManager</span>.
+              </li>
+              <li class="section__list-item">
+                <b>Need to execute SQL queries?</b> Use
+                <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>.
+              </li>
+              <li class="section__list-item">
+                <b>Don't need one of them?</b> Don't include it.
+              </li>
+            </ul>
+            <p class="section__item">
+              We have significantly improved on the flexibility of our architecture.
+            </p>
+            <p class="section__item">
+              ...But haven't we lost something along the way?
+            </p>
+            <h1 class="section__item">
+              Interfaces
+            </h1>
+            <p class="section__item">
+              Let's look back at the relationships between classes we've had at the beginning.
+            </p>
+            <figure class="section__uml-wrapper">
+              <picture>
+                <source srcset="/uml-inheritance-light.svg" media="(prefers-color-scheme: light)">
+                <source srcset="/uml-inheritance-dark.svg" media="(prefers-color-scheme: dark)">
+                <img src="/uml-inheritance-dark.svg" alt="UML inheritance diagram">
+              </picture>
+              <figcaption>
+                First inheritance structure
+              </figcaption>
+            </figure>
           </section>
           <div class="section__information-block">
             <div class="information__text">
