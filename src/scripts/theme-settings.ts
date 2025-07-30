@@ -1,12 +1,16 @@
 export default class ThemeConfig {
   private layout: HTMLDivElement | null;
   private themeButton: HTMLButtonElement | null;
-  private umlDiagram: HTMLPictureElement | null;
+  private umlInheritanceDiagram: HTMLPictureElement | null;
+  private umlNoInheritanceDiagram: HTMLPictureElement | null;
 
   constructor() {
     this.layout = document.querySelector<HTMLDivElement>('.layout');
     this.themeButton = document.querySelector<HTMLButtonElement>('.navigation__theme-icon');
-    this.umlDiagram = document.querySelector<HTMLPictureElement>('.section__uml-picture');
+    this.umlInheritanceDiagram = document.querySelector<HTMLPictureElement>
+      ('.section__uml-inheritance-picture');
+    this.umlNoInheritanceDiagram = document.querySelector<HTMLPictureElement>
+      ('.section__uml-no-inheritance-picture');
   }
 
   private changeThemeMode() : void {
@@ -14,19 +18,12 @@ export default class ThemeConfig {
 
     this.themeButton.addEventListener('pointerup', () => {
       this.toggleTheme();
-      this.changeUmlDiagramTheme();
     })
   }
 
-  private loadSavedTheme() : void {
-    const savedTheme : string | null = localStorage.getItem('theme');
-    if (!savedTheme) return;
-
-    this.layout?.setAttribute('data-theme', savedTheme);
-  } 
-
   public toggleTheme() : void {
     if(!this.layout) throw new Error("Something went wrong with the layout");
+
     const currentTheme : string = this.layout.getAttribute('data-theme')!;
 
     if (currentTheme === 'dark') {
@@ -37,37 +34,47 @@ export default class ThemeConfig {
       this.layout.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
     }
+
+    this.changeUmlDiagramTheme();
   }
 
   public changeUmlDiagramTheme() : void {
-    this.umlDiagram = document.querySelector<HTMLPictureElement>('.section__uml-picture');
+    this.umlInheritanceDiagram = document.querySelector<HTMLPictureElement>
+      ('.section__uml-inheritance-picture');
+    this.umlNoInheritanceDiagram = document.querySelector<HTMLPictureElement>
+      ('.section__uml-no-inheritance-picture');
 
-    if(!this.layout || !this.umlDiagram) throw new Error("Couldn't set up uml load");
+    if(!this.layout || !this.umlInheritanceDiagram || !this.umlNoInheritanceDiagram) 
+      throw new Error("Couldn't set up uml load");
 
     const currentTheme : string | null = this.layout.getAttribute('data-theme');
+    if (!currentTheme) return;
 
-    if (localStorage.getItem('theme') !== null) {
-      this.umlDiagram.innerHTML = `
-          <img class="section__uml-picture" src="/uml/uml-inheritance-${currentTheme}.svg" 
-          alt="UML inheritance diagram" />
-      `;
-    };
+    this.umlInheritanceDiagram.innerHTML = `
+        <img class="section__uml-image" src="/uml/uml-inheritance-${currentTheme}.svg" 
+        alt="UML inheritance diagram" />
+    `;
+    this.umlNoInheritanceDiagram.innerHTML = `
+        <img class="section__uml-image" src="/uml/uml-no-inheritance-${currentTheme}.svg" 
+        alt="UML no inheritance diagram" />
+    `;
   }
 
-  public setThemeOnPreference() {
-    if (!this.layout) throw new Error("Couldn't configure theme");
+  private setInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark').matches) {
-      this.layout.setAttribute('data-theme', 'dark');
+    if (savedTheme) {
+      this.layout?.setAttribute('data-theme', savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.layout?.setAttribute('data-theme', 'dark');
     } else {
-      this.layout.setAttribute('data-theme', 'light');
-    };
+      this.layout?.setAttribute('data-theme', 'light');
+    }
   }
 
   public init() : void {
-    this.setThemeOnPreference();
+    this.setInitialTheme();
     this.changeThemeMode();
-    this.loadSavedTheme();
     this.changeUmlDiagramTheme();
   }
 }
