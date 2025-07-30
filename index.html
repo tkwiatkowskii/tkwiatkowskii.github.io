@@ -167,18 +167,18 @@
                   {
                       private IDbConnection _connection;
 
-                      public required IDbConnection Connection
-                      {
-                          get => _connection;
-                          init => _connection = value 
-                            ?? throw new ArgumentNullException(nameof(value));
-                      }
-
                       public Database() { }
 
                       public Database(IDbConnection connection)
                       {
                           Connection = connection;
+                      }
+
+                      public required IDbConnection Connection
+                      {
+                          get => _connection;
+                          init => _connection = value 
+                            ?? throw new ArgumentNullException(nameof(value));
                       }
 
                       public void Open()
@@ -451,18 +451,18 @@
                   {
                       private IDbConnection _connection;
 
-                      public required IDbConnection Connection
-                      {
-                          get => _connection;
-                          init => _connection = value 
-                            ?? throw new ArgumentNullException(nameof(value));
-                      }
-
                       public DatabaseConnectionManager() { }
 
                       public DatabaseConnectionManager(IDbConnection connection)
                       {
                           Connection = connection;
+                      }
+
+                      public required IDbConnection Connection
+                      {
+                          get => _connection;
+                          init => _connection = value 
+                            ?? throw new ArgumentNullException(nameof(value));
                       }
 
                       public void Open()
@@ -518,17 +518,17 @@
               {
                   private readonly DatabaseConnectionManager _connectionManager;
 
-                  public required DatabaseConnectionManager ConnectionManager
-                  {
-                      init => _connectionManager = value
-                          ?? throw new ArgumentNullException(nameof(ConnectionManager));
-                  }
-
                   public MySql() { }
 
                   public MySql(DatabaseConnectionManager connectionManager)
                   {
                       ConnectionManager = connectionManager;
+                  }
+
+                  public required DatabaseConnectionManager ConnectionManager
+                  {
+                      init => _connectionManager = value
+                          ?? throw new ArgumentNullException(nameof(ConnectionManager));
                   }
 
                   public MySqlConnection MySqlConnection => 
@@ -569,12 +569,6 @@
               {
                   private readonly DatabaseConnectionManager _connectionManager;
 
-                  public required DatabaseConnectionManager ConnectionManager
-                  {
-                      init => _connectionManager = value
-                          ?? throw new ArgumentNullException(nameof(value));
-                  }
-
                   public SimpleDb() { }
 
                   public SimpleDb(DatabaseConnectionManager connectionManager)
@@ -582,10 +576,14 @@
                       ConnectionManager = connectionManager;
                   }
 
+                  public required DatabaseConnectionManager ConnectionManager
+                  {
+                      init => _connectionManager = value
+                          ?? throw new ArgumentNullException(nameof(value));
+                  }
+
                   public SimpleDbConnection SimpleDbConnection => 
                       (SimpleDbConnection)_connectionManager.Connection;
-
-                  public IDbConnection SimpleDbConnection => _connectionManager.Connection;
 
                   public void Open() => _connectionManager.Open();
                   public void Close() => _connectionManager.Close();
@@ -606,18 +604,18 @@
                   public class DatabaseSqlQueryExecutor
                   {
                       private DatabaseConnectionManager _connectionManager;
-                      
-                      public required DatabaseConnectionManager ConnectionManager
-                      {
-                          init => _connectionManager = value
-                              ?? throw new ArgumentNullException(nameof(value));
-                      }
 
                       public DatabaseSqlQueryExecutor() { }
 
                       public DatabaseSqlQueryExecutor(DatabaseConnectionManager connectionManager)
                       {
                           ConnectionManager = connectionManager;
+                      }
+
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(value));
                       }
 
                       public IDataReader ExecuteSqlQuery(
@@ -672,6 +670,16 @@
                       private readonly DatabaseConnectionManager _connectionManager;
                       private readonly DatabaseSqlQueryExecutor _queryExecutor;
 
+                      public MySql() { }
+
+                      public MySql(
+                          DatabaseConnectionManager connectionManager,
+                          DatabaseSqlQueryExecutor queryExecutor)
+                      {
+                          ConnectionManager = connectionManager;
+                          QueryExecutor = queryExecutor;
+                      }
+
                       public required DatabaseConnectionManager ConnectionManager
                       {
                           init => _connectionManager = value
@@ -682,16 +690,6 @@
                       {
                           init => _queryExecutor = value
                               ?? throw new ArgumentNullException(nameof(QueryExecutor));
-                      }
-
-                      public MySql() { }
-
-                      public MySql(
-                          DatabaseConnectionManager connectionManager,
-                          DatabaseSqlQueryExecutor queryExecutor)
-                      {
-                          ConnectionManager = connectionManager;
-                          QueryExecutor = queryExecutor;
                       }
 
                       public MySqlConnection MySqlConnection =>
@@ -749,16 +747,207 @@
               Let's look back at the relationships between classes we've had at the beginning.
             </p>
             <figure class="section__uml-wrapper">
-              <picture class="section__uml-picture">
-                <source srcset="/uml/uml-inheritance-light.svg" media="(prefers-color-scheme: light)">
-                <source srcset="/uml/uml-inheritance-dark.svg" media="(prefers-color-scheme: dark)">
+              <picture class="section__uml-inheritance-picture">
+                <source srcset="/uml/uml-inheritance-light.svg" media="(prefers-color-scheme: light)"
+                  class="section__uml-image">
+                <source srcset="/uml/uml-inheritance-dark.svg" media="(prefers-color-scheme: dark)"
+                  class="section__uml-image">
                 <img src="/uml/uml-inheritance-dark.svg" alt="UML inheritance diagram" class="section__uml-image">
               </picture>
               <figcaption>
                 First inheritance structure
               </figcaption>
             </figure>
+            <h2 class="section__item">Contracts are expectations</h2>
+            <p class="section__item">
+              The main
+              <span class="section__code-fragment">Database</span>
+              forms a contract that all of its inheriting children must follow.
+            </p>
+            <p class="section__item">
+              The contracts says this:
+              <em>
+                "All of my children will have at least these methods
+                and these properties"
+              </em>.
+            </p>
+            <p class="section__item">
+              This allows us for example to create a
+              <span class="section__code-fragment">DatabaseFactory</span>
+              class that dynamically creates different
+              <span class="section__code-fragment">Database</span>
+              subclasses.
+            </p>
+            <h3 class="section__item">Database factory implementation</h3>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public enum DatabaseType
+                  {
+                      MySql,
+                      SqlServer,
+                      SimpleDb
+                  }
+
+                  public static class DatabaseFactory
+                  {
+                      public static Database CreateDatabase(DatabaseType type, IDbConnection connection)
+                      {
+                          return type switch
+                          {
+                              DatabaseType.MySql => 
+                                  new MySql((MySqlConnection)connection),
+                              DatabaseType.SqlServer => 
+                                  new SqlServer((SqlConnection)connection),
+                              DatabaseType.SimpleDb => 
+                                  new SimpleDb((SimpleDbConnection)connection),
+                              _ => throw new 
+                                  ArgumentException("Unsupported database type", nameof(type))
+                          };
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              Why can
+              <span class="section__code-fragment">
+                DatabaseFactory
+              </span>
+              do this?
+            </p>
+            <p class="section__item">
+              All children inheriting from
+              <span class="section__code-fragment">
+                Database
+              </span>
+              fulfill the same contract imposed by the parent. That's why
+              our factory knows that each subclass object returned will
+              also qualify as a
+              <span class="section__code-fragment">
+                Database
+              </span>
+              object.
+            </p>
+            <p class="section__item">
+              Now let's take a loot at the relationship diagram after
+              composing our classes
+            </p>
+            <figure class="section__uml-wrapper">
+              <picture class="section__uml-no-inheritance-picture">
+                <source srcset="/uml/uml-no-inheritance-light.svg" media="(prefers-color-scheme: light)"
+                  class="section__uml-image">
+                <source srcset="/uml/uml-no-inheritance-dark.svg" media="(prefers-color-scheme: dark)"
+                  class="section__uml-image">
+                <img src="/uml/uml-no-inheritance-dark.svg" alt="UML no inheritance diagram" class="section__uml-image">
+              </picture>
+              <figcaption>
+                After composing our classes
+              </figcaption>
+            </figure>
+            <p class="section__item">
+              Notice that the classes aren't pointing at anything anymore.
+            </p>
+            <p class="section__item">
+              If we tried implementing the factory class now we'd get an error because there is no
+              <span class="section__code-fragment">Database</span>
+              <b>contract</b> that our subclasses are fulfilling.
+            </p>
           </section>
+          <h2 class="section__item">
+            Interfaces are contracts
+          </h2>
+          <p class="section__item">
+            Let's create an interface
+            <span class="section__code-fragment">IDatabaseConnection</span>
+            that will restore the behaviour we've had before.
+          </p>
+          <div class="code__wrapper">
+            <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+                public interface IDatabaseConnection
+                {
+                    void Open();
+                    void Close();
+                }
+              </code>
+            </pre>
+          </div>
+          <p class="section__item">
+            Let's implement this interface. We only have to change three lines.
+          </p>
+          <div class="code__wrapper">
+            <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+                public sealed class MySql : IDatabaseConnection
+                public sealed class SqlServer : IDatabaseConnection
+                public sealed class SimpleDb : IDatabaseConnection
+              </code>
+            </pre>
+          </div>
+          <p class="section__item">
+            What's happened?
+          </p>
+          <p class="section__item">
+            Now our classes are fulfilling contracts again. Just
+            that now, the contracts are being served if the form of interfaces.
+            By implementing an interface we are also serving a contract at the same time.
+          </p>
+          <p class="section__item">Let's try reimplementing back our
+            <span class="section__code-fragment">DatabaseFactory</span>
+            class
+          </p>
+          <h3 class="section__item">
+            Interfaced factory implementation
+          </h3>
+          <div class="code__wrapper">
+            <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+                public enum DatabaseType
+                {
+                    MySql,
+                    SqlServer,
+                    SimpleDb
+                }
+
+                public static class DatabaseFactory
+                {
+                    public static IDatabaseConnection CreateDatabase(DatabaseType type, 
+                                                                    IDbConnection connection)
+                    {
+                        var connectionManager = new DatabaseConnectionManager(connection);
+
+                        return type switch
+                        {
+                            DatabaseType.MySql => 
+                                new MySql(connectionManager, 
+                                          new DatabaseSqlQueryExecutor(connectionManager)),
+                            DatabaseType.SqlServer => 
+                                new SqlServer(connectionManager, 
+                                              new DatabaseSqlQueryExecutor(connectionManager)),
+                            DatabaseType.SimpleDb => 
+                                new SimpleDb(connectionManager),
+                            _ => throw new ArgumentException("Unsupported database type", nameof(type))
+                        };
+                    }
+                }
+              </code>
+            </pre>
+          </div>
+          <p class="section__item">
+            Great, we've gone back to what we've had before.
+            We could tighten up the hierarchy with a
+            <span class="section__code-fragment">
+              IDatabaseSqlQueryExecutor
+            </span>
+            interface but I won't be covering that.
+          </p>
+          <p class="section__item">
+            We're now ready to finally tackle dependency injection.
+          </p>
+          <h1 class="section-_item">
+            Dependency injection
+          </h1>
           <div class="section__information-block">
             <div class="information__text">
               <div class="information__beginning">
