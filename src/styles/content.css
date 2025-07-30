@@ -1,7 +1,6 @@
 .layout__content {
   grid-area: content;
   background-color: var(--background-color-main);
-  max-width: 100vw;
   width: 100%;
 }
 
@@ -22,7 +21,7 @@
 
 .content__section {
   margin: auto;
-  max-width: 80ch;
+  max-width: 800px;
   font-size: 1rem;
 }
 
@@ -136,8 +135,14 @@ h3.section__item {
   margin-block-start: 2rem;
 }
 
+.section__uml-image {
+  display: block;
+  margin: 0 auto;
+}
+
 figcaption {
   padding-block-start: 0.5rem;
-  margin-block-end: 2rem;
+  margin-block-end: 1.6rem;
   color: var(--font-color-secondary);
+  font-size: 0.8rem;
 }
