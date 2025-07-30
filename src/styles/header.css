@@ -7,6 +7,7 @@
   align-items: center;
   min-width: fit-content;
   min-height: auto;
+  max-width: 100%;
   --gap: calc(min(7vw, 3.7rem));
   --highlight-width: 0;
   --highlight-height: 0;
@@ -133,7 +134,7 @@
   .header__language-wrapper {
     display: block;
     margin-left: auto;
-    margin-inline-end: calc(0.512 * var(--gap));
+    padding-inline-end: calc(0.512 * var(--gap));
     display: flex;
     align-items: center;
     position: relative;
@@ -147,7 +148,7 @@
   background-color: var(--background-color-dropdown);
   top: 90%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-86%);
   width: auto;
   min-height: fit-content;
   display: none;
