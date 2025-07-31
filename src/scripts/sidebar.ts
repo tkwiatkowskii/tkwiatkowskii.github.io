@@ -4,6 +4,7 @@ export default class Sidebar {
   private sidebarEffectContainer : HTMLDivElement | null;
   private sidebar : HTMLDivElement | null;
   private sidebarNavList : HTMLOListElement | null;
+  private layoutSidebar : HTMLDivElement | null;
 
   constructor() {
     this.button = document.querySelector<HTMLButtonElement>('.sidebar__button');
@@ -11,6 +12,7 @@ export default class Sidebar {
     this.lightUpEffect = this.createLightEffect();
     this.sidebar = document.querySelector<HTMLDivElement>('.sidebar__navigation-wrapper');
     this.sidebarNavList = document.querySelector<HTMLOListElement>('.sidebar__navigation-list');
+    this.layoutSidebar = document.querySelector<HTMLDivElement>('.layout__sidebar');
 
     this.displaySidebar();
   }
@@ -28,6 +30,7 @@ export default class Sidebar {
       
     this.addGlowEffect();
     this.updateSidebarDataText();
+    this.setUpScrollbar();
   };
 
   private createLightEffect() : HTMLDivElement {
@@ -83,6 +86,21 @@ export default class Sidebar {
     listItems.forEach((listItem) => {
       const textContent: string = listItem.textContent?.trim() ?? '';
       listItem.setAttribute('data-text', textContent);
+    });
+  }
+
+  private setUpScrollbar() : void {
+    if (!this.button || !this.layoutSidebar) throw new Error("Couldn't set up scrollbar");
+
+    let open = false
+    
+    this.button.addEventListener('click', () => {
+      const delay : number = open ? 50 : 300;
+
+      setTimeout(() => {
+        this.layoutSidebar!.classList.toggle('sidebar--open');
+        open = !open;
+      }, delay);
     });
   }
 
