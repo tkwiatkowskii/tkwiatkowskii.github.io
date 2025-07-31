@@ -117,7 +117,7 @@ body {
       "header header"
       "sidebar content"
       "footer footer";
-    grid-template-columns: min(14rem, 25vw) 1fr;
+    grid-template-columns: min(25rem, 25vw) 1fr;
     grid-template-rows: 4rem 1fr auto;
   }
 
