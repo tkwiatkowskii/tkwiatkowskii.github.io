@@ -3,6 +3,7 @@ export default class ThemeConfig {
   private themeButton: HTMLButtonElement | null;
   private umlInheritanceDiagram: HTMLPictureElement | null;
   private umlNoInheritanceDiagram: HTMLPictureElement | null;
+  private umlInterfaceDiagram: HTMLPictureElement | null;
 
   constructor() {
     this.layout = document.querySelector<HTMLDivElement>('.layout');
@@ -11,6 +12,8 @@ export default class ThemeConfig {
       ('.section__uml-inheritance-picture');
     this.umlNoInheritanceDiagram = document.querySelector<HTMLPictureElement>
       ('.section__uml-no-inheritance-picture');
+    this.umlInterfaceDiagram = document.querySelector<HTMLPictureElement>
+      ('.section__uml-interface-picture');
   }
 
   private changeThemeMode() : void {
@@ -43,8 +46,11 @@ export default class ThemeConfig {
       ('.section__uml-inheritance-picture');
     this.umlNoInheritanceDiagram = document.querySelector<HTMLPictureElement>
       ('.section__uml-no-inheritance-picture');
+    this.umlInterfaceDiagram = document.querySelector<HTMLPictureElement>
+      ('.section__uml-interface-picture');
 
-    if(!this.layout || !this.umlInheritanceDiagram || !this.umlNoInheritanceDiagram) 
+    if(!this.layout || !this.umlInheritanceDiagram 
+      || !this.umlNoInheritanceDiagram || !this.umlInterfaceDiagram) 
       throw new Error("Couldn't set up uml load");
 
     const currentTheme : string | null = this.layout.getAttribute('data-theme');
@@ -57,6 +63,10 @@ export default class ThemeConfig {
     this.umlNoInheritanceDiagram.innerHTML = `
         <img class="section__uml-image" src="/uml/uml-no-inheritance-${currentTheme}.svg" 
         alt="UML no inheritance diagram" />
+    `;
+    this.umlInterfaceDiagram.innerHTML = `
+        <img class="section__uml-image" src="/uml/uml-interface-${currentTheme}.svg" 
+        alt="UML interface diagram" />
     `;
   }
 

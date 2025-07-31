@@ -6,6 +6,7 @@
   box-shadow: 0.1rem 0 0.5rem rgba(0, 0, 0, 0.5);
   z-index: 3;
   top: 0;
+  align-self: start;
 }
 
 .sidebar__button {

@@ -110,7 +110,7 @@ h3.section__item {
   display: block;
   min-width: 100%;
   min-height: fit-content;
-  margin-block: 1.4rem;
+  margin-block: 1rem;
 }
 
 .section__list-item {
@@ -145,7 +145,6 @@ h3.section__item {
 
 .section__uml-image {
   display: block;
-  margin: 0 auto;
 }
 
 figcaption {
@@ -153,4 +152,8 @@ figcaption {
   margin-block-end: 1.6rem;
   color: var(--font-color-secondary);
   font-size: 0.8rem;
+}
+
+.section__item--em {
+  padding-inline-start: 2rem;
 }
