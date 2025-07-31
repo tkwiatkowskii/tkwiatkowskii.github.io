@@ -27,7 +27,7 @@
       </h1>
       <nav class="header__navigation-menu">
         <div class="navigation__icons-wrapper">
-          <div class="header__language-dropdown">
+          <div class="header__language-dropdown header__language-dropdown--mobile">
             <button class="header__language--en header__language">en</button>
             <button class="header__language--pl header__language">pl</button>
           </div>
@@ -39,22 +39,39 @@
           </button>
         </div>
         <ol class="header__navigation-list">
-          <li class="navigation__item--section">f
-            dsfsdfsdfsdf
+          <li class="navigation__item-section navigation__item-section--short">
+            Introduction
+          </li>
+          <li class="navigation__item-section">
+            Composition
             <ol class="navigation__sublist">
-              <li class="navigation__item--subsection">dsadas</li>
-              <li class="navigation__item--subsection">dsdasdsaadas</li>
-              <li class="navigation__item--subsection">dsadda</li>
+              <li class="navigation__item--subsection">Attempted fix: Separate executor class</li>
+              <li class="navigation__item--subsection">Can we do better?</li>
+              <li class="navigation__item--subsection">From inheritance to composition</li>
+              <li class="navigation__item--subsection">Putting it together</li>
+              <li class="navigation__item--subsection">Why this is better</li>
             </ol>
           </li>
-          <li class="navigation__item--section">
-            dasdas
+          <li class="navigation__item-section">
+            Interfaces
             <ol class="navigation__sublist">
-              <li class="navigation__item--subsection">dsad</li>
-              <li class="navigation__item--subsection">dsadas</li>
+              <li class="navigation__item--subsection">Contracts are expectations</li>
+              <li class="navigation__item--subsection">Interfaces as contracts</li>
+              <li class="navigation__item--subsection">From inheritance to flexible contracts</li>
             </ol>
           </li>
-          <li class="navigation__item--section">dsadas</li>
+          <li class="navigation__item-section">
+            Dependency injection
+            <ol class="navigation__sublist">
+              <li class="navigation__item--subsection">What does injection mean?</li>
+              <li class="navigation__item--subsection">Testing with dependency injection</li>
+              <li class="navigation__item--subsection">Using a factory for injection</li>
+              <li class="navigation__item--subsection">The puzzle piece pattern</li>
+            </ol>
+          </li>
+          <li class="navigation__item-section navigation__item-section--short">
+            Conclusion
+          </li>
         </ol>
       </nav>
       <div class="header__language-wrapper">
@@ -76,52 +93,55 @@
         <div class="sidebar__effect-container"></div>
         <ol class="sidebar__navigation-list">
           <li class="sidebar__item--section sidebar__item" tabindex="1">
-            Introduction
+            <a href="#introduction">Introduction</a>
           </li>
           <li class="sidebar__item--section sidebar__item" tabindex="2">
             Composition
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="3">
-            When inheritance forces the wrong behaviour
-          </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="4">
             Attempted fix: Separate executor class
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            When inheritance becomes a trap
-          </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+          <li class="sidebar__item--subsection sidebar__item" tabindex="4">
             Can we do better?
-          </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            Extracting connection management
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="5">
             From inheritance to composition
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            Extracting query execution
-          </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+          <li class="sidebar__item--subsection sidebar__item" tabindex="6">
             Putting it together
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+          <li class="sidebar__item--subsection sidebar__item" tabindex="7">
             Why this is better
           </li>
-          <li class="sidebar__item--section sidebar__item" tabindex="2">
+          <li class="sidebar__item--section sidebar__item" tabindex="8">
             Interfaces
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+          <li class="sidebar__item--subsection sidebar__item" tabindex="9">
             Contracts are expectations
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            Database factory implementation
-          </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+          <li class="sidebar__item--subsection sidebar__item" tabindex="10">
             Interfaces as contracts
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            Introducing IDatabaseConnection
+          <li class="sidebar__item--subsection sidebar__item" tabindex="11">
+            From inheritance to flexible contracts
+          </li>
+          <li class="sidebar__item--section sidebar__item" tabindex="12">
+            Dependency injection
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="13">
+            What does injection mean?
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="14">
+            Testing with dependency injection
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="15">
+            Using a factory for injection
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="16">
+            The puzzle piece pattern
+          </li>
+          <li class="sidebar__item--section sidebar__item" tabindex="17">
+            Conclusion
           </li>
         </ol>
       </div>
@@ -131,7 +151,7 @@
       <div class="content__wrapper">
         <div class="content__section">
           <section class="section__intro">
-            <h1 class="section__item">
+            <h1 class="section__item" id="introduction">
               Introduction
             </h1>
             <p class="section__item">
@@ -173,7 +193,7 @@
             </p>
           </section>
           <section class="section__composition">
-            <h1 class="section__item">
+            <h1 class="section__item" id="composition">
               Composition
             </h1>
             <p class="section__item">
@@ -316,7 +336,7 @@
               <span class="section__code-fragment">SQLServer</span>
               are SQL databases, so it makes sense to override ExecuteSqlQuery.
             </p>
-            <h3 class="section__item">
+            <h3 class="section__item" id="when-inheritance">
               When inheritance forces the wrong behaviour.
             </h3>
             <p class="section__item">
@@ -360,7 +380,7 @@
               The only thing we can do is throw an exception,
               which makes the method pointless.
             </p>
-            <h2 class="section__item">
+            <h2 class="section__item" id="attempted-fix">
               Attempted fix: Separate executor class
             </h2>
             <p class="section__item">
@@ -426,7 +446,7 @@
               <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
               , while those that don't support SQL don't.
             </p>
-            <h3 class="section__item">
+            <h3 class="section__item" id="trap">
               When inheritance becomes a trap
             </h3>
             <p class="section__item">
@@ -460,7 +480,7 @@
             <p class="section__item">
               We have coupled ourselves into a hierarchy that's too rigid.
             </p>
-            <h2 class="section__item">
+            <h2 class="section__item" id="can-we-do-better">
               Can we do better?
             </h2>
             <p class="section__item">
@@ -474,7 +494,7 @@
               Instead of baking these into a shared parent class,
               we can extract this functionality into its own, independent class.
             </p>
-            <h3 class="section__item">
+            <h3 class="section__item" id="extracting-connection">
               Extracting connection management
             </h3>
             <div class="code__wrapper">
@@ -533,7 +553,7 @@
               opening and closing connections we can just choose
               to ignore it.
             </p>
-            <h3 class="section__item">
+            <h3 class="section__item" id="from-inheritance">
               From inheritance to composition
             </h3>
             <p class="section__item">
@@ -624,7 +644,7 @@
               </code>
             </pre>
             </div>
-            <h3 class="section__item">
+            <h3 class="section__item" id="extracting-query">
               Extracting query execution
             </h3>
             <p class="section__item">
@@ -685,7 +705,7 @@
               </span>
               whenever we need to run SQL quereis.
             </p>
-            <h3 class="section__item">
+            <h3 class="section__item" id="putting-it-together">
               Putting it together
             </h3>
             <p class="section__item">
@@ -752,7 +772,7 @@
                 </code>
               </pre>
             </div>
-            <h3 class="section__item">
+            <h3 class="section__item" id="why-better">
               Why this is better
             </h3>
             <p class="section__item">
@@ -780,7 +800,7 @@
             </p>
           </section>
           <section class="section__interfaces">
-            <h1 class="section__item">
+            <h1 class="section__item" id="interfaces">
               Interfaces
             </h1>
             <p class="section__item">
@@ -798,7 +818,9 @@
                 First inheritance structure
               </figcaption>
             </figure>
-            <h2 class="section__item">Contracts are expectations</h2>
+            <h2 class="section__item" id="contracts-are-expectations">
+              Contracts are expectations
+            </h2>
             <p class="section__item">
               Initially, our database classes <b>inherited</b> from a
               common base class
@@ -819,7 +841,7 @@
               <span class="section__code-fragment">Database</span>
               subclasses.
             </p>
-            <h3 class="section__item">Database factory implementation</h3>
+            <h3 class="section__item" id="database-factory">Database factory implementation</h3>
             <div class="code__wrapper">
               <pre class="line-numbers language-csharp">
                 <code class="language-csharp">
@@ -874,10 +896,10 @@
               <span class="section__code-fragment">Database</span>
               <b>contract</b> that our subclasses are fulfilling.
             </p>
-            <h2 class="section__item">
+            <h2 class="section__item" id="interfaces-as-contracts">
               Interfaces as contracts
             </h2>
-            <h3 class="section__item">
+            <h3 class="section__item" id="IDatabaseConnection">
               Introducing
               <span class="section__code-fragment">IDatabaseConnection</span>
             </h3>
@@ -927,7 +949,7 @@
               <span class="section__code-fragment">DatabaseFactory</span>
               class
             </p>
-            <h3 class="section__item">
+            <h3 class="section__item" id="interfaced-factory">
               Interfaced factory implementation
             </h3>
             <div class="code__wrapper">
@@ -972,7 +994,7 @@
               </span>
               interface but I won't be covering that.
             </p>
-            <h2 class="section__item">
+            <h2 class="section__item" id="from-inheritance">
               From inheritance to flexible contracts
             </h2>
             <p class="section__item">
@@ -996,7 +1018,7 @@
               We're now ready to finally tackle dependency injection.
             </p>
           </section>
-          <section class="section__dependency-injecton">
+          <section class="section__dependency-injecton" id="dependency-injection">
             <h1 class="section__item">
               Dependency injection
             </h1>
@@ -1029,7 +1051,7 @@
                 </code>
               </pre>
             </div>
-            <h2 class="section__item">What does "Injection" mean?</h2>
+            <h2 class="section__item" id="what-does-injection-mean">What does "Injection" mean?</h2>
             <p class="section__item">
               Dependency injection (DI) is a design pattern where a class receives its required objects (dependencies)
               from the <b>outside</b>, instead of creating them itself.
@@ -1064,7 +1086,7 @@
               If you build components separately (like <span class="section__code-fragment">IDatabaseConnection</span>),
               replacing one affects all subclasses automatically, without rewriting everything.
             </p>
-            <h2 class="section__item">
+            <h2 class="section__item" id="testing-with-di">
               Testing with DI
             </h2>
             <p class="section__item">
@@ -1148,7 +1170,7 @@
                 </code>
               </pre>
             </div>
-            <h3 class="section__item">
+            <h3 class="section__item" id="SqlToFile">
               Implementing <span class="section__code-fragment">SqlToFile</span>
             </h3>
             <p class="section__item">

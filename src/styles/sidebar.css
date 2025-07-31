@@ -7,6 +7,7 @@
   z-index: 3;
   top: 0;
   align-self: start;
+  overflow: visible;
 }
 
 .sidebar__button {
@@ -39,10 +40,10 @@
 .sidebar__navigation-wrapper {
   position: relative;
   color: var(--font-color-secondary);
-  overflow: hidden;
-  min-height: fit-content;
+  overflow-x: hidden;
+  height: calc(100vh - 2rem); ;
   margin-inline-start: 2rem;
-  margin-block-start: 2rem;
+  padding-block-start: 2rem;
 }
 
 .sidebar__navigation-list {
@@ -107,7 +108,7 @@
 .sidebar__effect-container {
   position: absolute;
   background-color: var(--accent-color-main);
-  height: 100%;
+  height: 84%;
 }
 
 .sidebar__effect {
