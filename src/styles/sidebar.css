@@ -9,6 +9,7 @@
   align-self: start;
 }
 
+
 .sidebar__button {
   position: absolute;
   cursor: pointer;
@@ -39,11 +40,20 @@
 .sidebar__navigation-wrapper {
   position: relative;
   color: var(--font-color-secondary);
-  overflow: hidden;
-  height: fit-content;
+  overflow-x: hidden;
+  height: calc(100vh - 2rem);
   margin-inline-start: 2rem;
   padding-block-start: 2rem;
 }
+
+.sidebar__navigation-wrapper {
+  overflow-y: hidden;
+}
+
+.sidebar--open .sidebar__navigation-wrapper {
+  overflow-y: auto;
+}
+
 
 .sidebar__navigation-list {
   display: flex;
@@ -107,7 +117,6 @@
 .sidebar__effect-container {
   position: absolute;
   background-color: var(--accent-color-main);
-  height: 100%;
 }
 
 .sidebar__effect {
