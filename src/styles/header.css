@@ -163,6 +163,10 @@
   overflow: hidden;
 }
 
+.header__language-dropdown--mobile {
+  transform: translateX(-50%);
+}
+
 .header__language {
   cursor: pointer;
   width: auto;
