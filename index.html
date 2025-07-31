@@ -40,37 +40,45 @@
         </div>
         <ol class="header__navigation-list">
           <li class="navigation__item-section navigation__item-section--short">
-            Introduction
+            <a href="#introduction">Introduction</a>
           </li>
           <li class="navigation__item-section">
-            Composition
+            <a href="#composition">Composition</a>
             <ol class="navigation__sublist">
-              <li class="navigation__item--subsection">Attempted fix: Separate executor class</li>
-              <li class="navigation__item--subsection">Can we do better?</li>
-              <li class="navigation__item--subsection">From inheritance to composition</li>
-              <li class="navigation__item--subsection">Putting it together</li>
-              <li class="navigation__item--subsection">Why this is better</li>
+              <li class="navigation__item--subsection"><a href="#attempted-fix">Attempted fix: Separate
+                  executorclass</a></li>
+              <li class="navigation__item--subsection"><a href="#can-we-do-better">Can we do better?</a></li>
+              <li class="navigation__item--subsection"><a href="#from-inheritance">From inheritance to composition</a>
+              </li>
+              <li class="navigation__item--subsection"><a href="#putting-it-together">Putting it together</a></li>
+              <li class="navigation__item--subsection"><a href="#why-better">Why this is better</a></li>
             </ol>
           </li>
           <li class="navigation__item-section">
-            Interfaces
+            <a href="#interfaces">Interfaces</a>
             <ol class="navigation__sublist">
-              <li class="navigation__item--subsection">Contracts are expectations</li>
-              <li class="navigation__item--subsection">Interfaces as contracts</li>
-              <li class="navigation__item--subsection">From inheritance to flexible contracts</li>
+              <li class="navigation__item--subsection"><a href="#contracts-are-expectations">Contracts are
+                  expectations</a></li>
+              <li class="navigation__item--subsection"><a href="#interfaces-as-contracts">Interfaces as contracts</a>
+              </li>
+              <li class="navigation__item--subsection"><a href="#from-inheritance-to-contracts">From inheritance to
+                  flexible contracts</a></li>
             </ol>
           </li>
           <li class="navigation__item-section">
-            Dependency injection
+            <a href="#dependency-injection">Dependency injection</a>
             <ol class="navigation__sublist">
-              <li class="navigation__item--subsection">What does injection mean?</li>
-              <li class="navigation__item--subsection">Testing with dependency injection</li>
-              <li class="navigation__item--subsection">Using a factory for injection</li>
-              <li class="navigation__item--subsection">The puzzle piece pattern</li>
+              <li class="navigation__item--subsection"><a href="#what-does-injection-mean">What does injection mean?</a>
+              </li>
+              <li class="navigation__item--subsection"><a href="#testing-with-di">Testing with dependency injection</a>
+              </li>
+              <li class="navigation__item--subsection"><a href="#injection-factory">Using a factory for injection</a>
+              </li>
+              <li class="navigation__item--subsection"><a href="#puzzle-piece">The puzzle piece pattern</a></li>
             </ol>
           </li>
           <li class="navigation__item-section navigation__item-section--short">
-            Conclusion
+            <a href="#conclusion">Conclusion</a>
           </li>
         </ol>
       </nav>
@@ -96,52 +104,52 @@
             <a href="#introduction">Introduction</a>
           </li>
           <li class="sidebar__item--section sidebar__item" tabindex="2">
-            Composition
+            <a href="#composition">Composition</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="3">
-            Attempted fix: Separate executor class
+            <a href="#attempted-fix">Attempted fix: Separate executor class</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="4">
-            Can we do better?
+            <a href="#can-we-do-better">Can we do better?</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            From inheritance to composition
+            <a href="#from-inheritance">From inheritance to composition</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="6">
-            Putting it together
+            <a href="#putting-it-together">Putting it together</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="7">
-            Why this is better
+            <a href="#why-better">Why this is better</a>
           </li>
           <li class="sidebar__item--section sidebar__item" tabindex="8">
-            Interfaces
+            <a href="#interfaces">Interfaces</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="9">
-            Contracts are expectations
+            <a href="#contracts-are-expectations">Contracts are expectations</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="10">
-            Interfaces as contracts
+            <a href="#interfaces-as-contracts">Interfaces as contracts</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="11">
-            From inheritance to flexible contracts
+            <a href="#from-inheritance-to-contracts">From inheritance to flexible contracts</a>
           </li>
           <li class="sidebar__item--section sidebar__item" tabindex="12">
-            Dependency injection
+            <a href="#dependency-injection">Dependency injection</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="13">
-            What does injection mean?
+            <a href="#what-does-injection-mean">What does injection mean?</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="14">
-            Testing with dependency injection
+            <a href="#testing-with-di">Testing with dependency injection</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="15">
-            Using a factory for injection
+            <a href="#injection-factory">Using a factory for injection</a>
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="16">
-            The puzzle piece pattern
+            <a href="#puzzle-piece">The puzzle piece pattern</a>
           </li>
           <li class="sidebar__item--section sidebar__item" tabindex="17">
-            Conclusion
+            <a href="#conclusion">Conclusion</a>
           </li>
         </ol>
       </div>
@@ -199,8 +207,7 @@
             <p class="section__item">
               Let's say we have a simple abstract
               <span class="section__code-fragment">class Database</span>
-              that supports 3 actions: opening a connection to the database, closing
-              the connection and executing an SQL query that returns a IDataReader object.
+              that supports 3 actions:
             </p>
             <ul class="section__list">
               <li class="section__list-item">
@@ -994,7 +1001,7 @@
               </span>
               interface but I won't be covering that.
             </p>
-            <h2 class="section__item" id="from-inheritance">
+            <h2 class="section__item" id="from-inheritance-to-contracts">
               From inheritance to flexible contracts
             </h2>
             <p class="section__item">
@@ -1248,7 +1255,7 @@
             <p class="section__item">
               This is the crux of dependency injection.
             </p>
-            <h2 class="section__item">Using a factory for injection</h2>
+            <h2 class="section__item" id="injection-factory">Using a factory for injection</h2>
             <p class="section__item">
               Let's modify our factory so we can pass in any implementation of
               <span class="section__code-fragment">ISqlEncryption</span>:
@@ -1283,7 +1290,7 @@
                 </code>
               </pre>
             </div>
-            <h2 class="section__item">
+            <h2 class="section__item" id="puzzle-piece">
               The puzzle piece pattern
             </h2>
             <p class="section__item">
@@ -1343,7 +1350,7 @@
             </p>
           </section>
           <section class="secton__conclusion">
-            <h1 class="section__item">
+            <h1 class="section__item" id="conclusion">
               Conclusion
             </h1>
             <p class="section__item">
