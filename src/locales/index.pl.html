@@ -27,7 +27,7 @@
       </h1>
       <nav class="header__navigation-menu">
         <div class="navigation__icons-wrapper">
-          <div class="header__language-dropdown header__language">
+          <div class="header__language-dropdown header__language-dropdown--mobile">
             <button class="header__language--en header__language">en</button>
             <button class="header__language--pl header__language">pl</button>
           </div>
@@ -76,63 +76,1299 @@
         <div class="sidebar__effect-container"></div>
         <ol class="sidebar__navigation-list">
           <li class="sidebar__item--section sidebar__item" tabindex="1">
-            dsaidsajn
+            Introduction
           </li>
-          <li class="sidebar__item--subsection sidebar__item" tabindex="2">
-            dmskjndkjnas
+          <li class="sidebar__item--section sidebar__item" tabindex="2">
+            Composition
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="3">
-            dsjndjsnj
+            When inheritance forces the wrong behaviour
           </li>
-          <li class="sidebar__item--section sidebar__item" tabindex="4">
-            dsaidsajn
+          <li class="sidebar__item--subsection sidebar__item" tabindex="4">
+            Attempted fix: Separate executor class
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            dsaidsajn
+            When inheritance becomes a trap
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Can we do better?
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Extracting connection management
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            From inheritance to composition
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Extracting query execution
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Putting it together
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Why this is better
+          </li>
+          <li class="sidebar__item--section sidebar__item" tabindex="2">
+            Interfaces
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Contracts are expectations
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Database factory implementation
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Interfaces as contracts
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Interfaced factory implementation
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            From inheritance to flexible contracts
+          </li>
+          <li class="sidebar__item--section sidebar__item" tabindex="5">
+            Dependency injection
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            What does injection mean?
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Testing with dependency injection
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Implementing SqlToFile
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Using a factory for injection
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            The puzzle piece pattern
+          </li>
+          <li class="sidebar__item--section sidebar__item" tabindex="5">
+            Conclusion
           </li>
         </ol>
       </div>
-    </nav>
 
+    </nav>
     <main class="layout__content">
       <div class="content__wrapper">
         <div class="content__section">
           <section class="section__intro">
-            <h1 class="section__item"> sa asd</h1>
+            <h1 class="section__item">
+              Introduction
+            </h1>
             <p class="section__item">
-              dad dsadas dasd dsada sd sad asd sadas das das sad asds
-              <span class="section__code-fragment">for... of</span>
+              Dependency injection is a design pattern where objects receive their
+              dependencies from an external source rather than creating them internally.
+              This makes code less tightly coupled and easier to modify.
             </p>
-            <div class="code__wrapper">
-              <pre class="line-numbers language-csharp" data-line="3">
-                <code class="language-csharp">
-                class MyClass;
-                int x = 5;
-                for (int i = 0; i &lt; 1; i++)
-                {
-                  x++; dsadasd asdasda sdasdasdsad asdasdas. dasds ad as da sda sd as
-                };
-                </code>
-                </pre>
-            </div>
+            <p class="section__item">
+              While it can sound
+              complex, it's actually a straightforward idea that every programmer should
+              know. The main reasons to learn and use dependency injection are:
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                Greater flexibility by decoupling components
+                and allowing easy replacement of implementations
+              </li>
+              <li class="section__list-item">
+                Simpler, more isolated testing by injecting mock or stub dependencies
+              </li>
+              <li class="section__list-item">
+                Improved maintainability and scalability as systems grow more complex
+              </li>
+            </ul>
             <div class="section__information-block">
               <div class="information__text">
                 <div class="information__beginning">
                   <img src="/information-icon.svg" class="section__info-icon" alt="information icon">
-                  <h3 class="section__item">dasdasd</h3>
+                  <h3 class="section__item">Do I need to know C# to understand this?</h3>
                 </div>
-                dsadasdasdsadasdas dsadas dasdas
+                The examples in this article do use specific C# related methods and keywords,
+                but the knowledge of C# is absolutely not needed to be able to read this article.
+                Focus on the general concepts and higher level ideas.
               </div>
             </div>
-            <h3 class="section__item">dsadasdas</h3>
-            <ul class="section__list">
-              <li class="section__list-item">sadasdasd</li>
-              <li class="section__list-item">dasdasdasd</li>
-              <li class="section__list-item">dasdasdas</li>
-            </ul>
+            <p class="section__item">
+              Before we get to it,
+              we must first talk about...
+            </p>
           </section>
-        </div>
-      </div>
+          <section class="section__composition">
+            <h1 class="section__item">
+              Composition
+            </h1>
+            <p class="section__item">
+              Let's say we have a simple abstract
+              <span class="section__code-fragment">class Database</span>
+              that supports 3 actions: opening a connection to the database, closing
+              the connection and executing an SQL query that returns a IDataReader object.
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                Opening a connection to the database.
+              </li>
+              <li class="section__list-item">
+                Closing the connection we opened.
+              </li>
+              <li class="section__list-item">
+                Executing an SQL query (returning an <span class="section__code-fragment">IDataReader</span>).
+              </li>
+            </ul>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public abstract class Database
+                  {
+                      private IDbConnection _connection;
+
+                      public Database() { }
+
+                      public Database(IDbConnection connection)
+                      {
+                          Connection = connection;
+                      }
+
+                      public required IDbConnection Connection
+                      {
+                          get => _connection;
+                          init => _connection = value 
+                            ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public void Open()
+                      {
+                          if (Connection.State != ConnectionState.Open)
+                          {
+                              Connection.Open();
+                          }
+                      }
+
+                      public void Close()
+                      {
+                          if (Connection.State != ConnectionState.Closed)
+                          {
+                              Connection.Close();
+                          }
+                      }
+
+                      public abstract IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType,
+                          params IDataParameter[] queryParameters);
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              We want to make two specific database subclasses that inherit from it.
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                One for
+                <span class="section__code-fragment">MySQL</span>
+              </li>
+              <li class="section__list-item">
+                One for
+                <span class="section__code-fragment">SQLServer</span>
+              </li>
+            </ul>
+            <p class="section__item">Here are the MySQL and SQLServer implementations</p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public sealed class MySql : Database
+                  {
+                      public MySql() : base() { }
+
+                      public MySql(MySqlConnection connection) : base(connection) { }
+
+                      public MySqlConnection MySqlConnection => (MySqlConnection)Connection;
+
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          MySqlCommand command = (MySqlCommand)Connection.CreateCommand();
+
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                              foreach (var param in queryParameters)
+                                  command.Parameters.Add(param);
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+
+                  public sealed class SqlServer : Database
+                  {
+                      public SqlServer() : base() { }
+
+                      public SqlServer(SqlConnection connection) : base(connection) { }
+
+                      public SqlConnection SqlConnection => (SqlConnection)Connection;
+
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          SqlCommand command = (SqlCommand)Connection.CreateCommand();
+
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                              foreach (var param in queryParameters)
+                                  command.Parameters.Add(param);
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              This works well.
+              <span class="section__code-fragment">MySQL</span>
+              and
+              <span class="section__code-fragment">SQLServer</span>
+              are SQL databases, so it makes sense to override ExecuteSqlQuery.
+            </p>
+            <h3 class="section__item">
+              When inheritance forces the wrong behaviour.
+            </h3>
+            <p class="section__item">
+              Now let's assume we want to expand our hierarchy to also include our own
+              database
+              "<span class="section__code-fragment">SimpleDB</span>"
+              that supports opening and closing connections but not executing SQL queries.
+            </p>
+            <p class="section__item">
+              Here's how it looks:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp" data-line="12">
+                <code class="language-csharp">
+                  public sealed class SimpleDb : Database
+                  {
+                      public SimpleDb() : base() { }
+
+                      public SimpleDb(SimpleDbConnection connection) : base(connection) { }
+
+                      public SimpleDbConnection SimpleDbConnection => (SimpleDbConnection)Connection;
+
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          throw new NotImplementedException("SimpleDb doesn't support SQL queries!");
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              This feels wrong.
+            </p>
+            <p class="section__item">
+              The base class <b>forces</b> SimpleDB to implement
+              <span class="section__code-fragment">ExecuteSqlQuery</span>
+              even though SimpleDB doesn't support SQL.
+              The only thing we can do is throw an exception,
+              which makes the method pointless.
+            </p>
+            <h2 class="section__item">
+              Attempted fix: Separate executor class
+            </h2>
+            <p class="section__item">
+              One way to avoid this is to move the SQL-specific behavior into its own class.
+              We can create a
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+              class that extends
+              <span class="section__code-fragment">Database</span>
+              and provides the
+              <span class="section__code-fragment">ExecuteSqlQuery</span>
+              method:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public abstract class DatabaseSqlQueryExecutor : Database
+                  {
+                      public DatabaseSqlQueryExecutor() : base() { }
+
+                      public DatabaseSqlQueryExecutor(IDbConnection connection) : base(connection) { }
+
+                      public abstract IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType,
+                          params IDataParameter[] queryParameters);
+                  }
+
+                  public sealed class MySql : DatabaseSqlQueryExecutor
+                  {                      
+                      public MySql() : base() { }
+
+                      public MySql(MySqlConnection connection) : base(connection) { }
+
+                      public MySqlConnection MySqlConnection => (MySqlConnection)Connection;
+
+                      public override IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          MySqlCommand command = (MySqlCommand)Connection.CreateCommand();
+
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                              foreach (var param in queryParameters)
+                                  command.Parameters.Add(param);
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+
+                  public sealed class SqlServer : DatabaseSqlQueryExecutor
+                  {
+                     // ...
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              This way, SQL databases inherit from
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+              , while those that don't support SQL don't.
+            </p>
+            <h3 class="section__item">
+              When inheritance becomes a trap
+            </h3>
+            <p class="section__item">
+              We started with a simple
+              <span class="section__code-fragment">Database</span>
+              class. It had an
+              <span class="section__code-fragment">ExecuteSqlQuery()</span>
+              method,
+              and subclasses like
+              <span class="section__code-fragment">MySqlDatabase</span>
+              and
+              <span class="section__code-fragment">SqlServerDatabase</span>
+              inherited it.
+            </p>
+            <p class="section__item">
+              Then, we introduced an extra layer
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>.
+            </p>
+            <p class="section__item">
+              This now breaks everything that expected
+              <span class="section__code-fragment">Database</span>
+              to have the
+              <span class="section__code-fragment">ExecuteSqlQuery()</span>
+              method. If we keep adding database types
+              (e.g., different NoSQL databases),
+              we might need more subclasses, or entirely different classes like
+              <span class="section__code-fragment">NoSqlDatabase</span>
+              , making the hierarchy more
+              complex.
+            </p>
+            <p class="section__item">
+              We have coupled ourselves into a hierarchy that's too rigid.
+            </p>
+            <h2 class="section__item">
+              Can we do better?
+            </h2>
+            <p class="section__item">
+              Yes! Let's look at the three subclasses. They both share the methods
+              <span class="section__code-fragment">Open()</span>
+              and
+              <span class="section__code-fragment">Close()</span>
+              .
+            </p>
+            <p class="section__item">
+              Instead of baking these into a shared parent class,
+              we can extract this functionality into its own, independent class.
+            </p>
+            <h3 class="section__item">
+              Extracting connection management
+            </h3>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class DatabaseConnectionManager
+                  {
+                      private IDbConnection _connection;
+
+                      public DatabaseConnectionManager() { }
+
+                      public DatabaseConnectionManager(IDbConnection connection)
+                      {
+                          Connection = connection;
+                      }
+
+                      public required IDbConnection Connection
+                      {
+                          get => _connection;
+                          init => _connection = value 
+                            ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public void Open()
+                      {
+                          if (Connection.State != ConnectionState.Open)
+                          {
+                              Connection.Open();
+                          }
+                      }
+
+                      public void Close()
+                      {
+                          if (Connection.State != ConnectionState.Closed)
+                          {
+                              Connection.Close();
+                          }
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              Now,
+              <span class="section__code-fragment">
+                DatabaseConnectionManager
+              </span>
+              represents <b>only a connection to a database</b>, which each
+              of our subclasses have. We <em>can</em> make use of
+              the
+              <span class="section__code-fragment">
+                DatabaseConnectionManager
+              </span>
+              if we need to, but we don't <em>have to</em>.
+              If we introduce a Database that doesn't support
+              opening and closing connections we can just choose
+              to ignore it.
+            </p>
+            <h3 class="section__item">
+              From inheritance to composition
+            </h3>
+            <p class="section__item">
+              So how do we apply this to our database classes?
+              Instead of subclassing
+              <span class="section__code-fragment">Database</span>
+              , our database classes can instead compose a
+              <span class="section__code-fragment">DatabaseConnectionManager</span>
+              object.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+              public sealed class MySql
+              {
+                  private readonly DatabaseConnectionManager _connectionManager;
+
+                  public MySql() { }
+
+                  public MySql(DatabaseConnectionManager connectionManager)
+                  {
+                      ConnectionManager = connectionManager;
+                  }
+
+                  public required DatabaseConnectionManager ConnectionManager
+                  {
+                      init => _connectionManager = value
+                          ?? throw new ArgumentNullException(nameof(ConnectionManager));
+                  }
+
+                  public MySqlConnection MySqlConnection => 
+                      (MySqlConnection)_connectionManager.Connection;
+
+                  public IDataReader ExecuteSqlQuery(
+                      string sql,
+                      CommandType commandType = CommandType.Text,
+                      params IDataParameter[] queryParameters)
+                  {
+                      MySqlCommand command = 
+                          (MySqlCommand)_connectionManager.Connection.CreateCommand();
+
+                      command.CommandText = sql;
+                      command.CommandType = commandType;
+
+                      if (queryParameters != null)
+                      {
+                          foreach (var param in queryParameters)
+                          {
+                              command.Parameters.Add(param);
+                          }
+                      }
+
+                      return command.ExecuteReader(CommandBehavior.CloseConnection);
+                  }
+
+                  public void Open() => _connectionManager.Open();
+                  public void Close() => _connectionManager.Close();
+              }
+
+              public sealed class SqlServer
+              {
+                  // ...
+              }
+
+              public sealed class SimpleDb
+              {
+                  private readonly DatabaseConnectionManager _connectionManager;
+
+                  public SimpleDb() { }
+
+                  public SimpleDb(DatabaseConnectionManager connectionManager)
+                  {
+                      ConnectionManager = connectionManager;
+                  }
+
+                  public required DatabaseConnectionManager ConnectionManager
+                  {
+                      init => _connectionManager = value
+                          ?? throw new ArgumentNullException(nameof(value));
+                  }
+
+                  public SimpleDbConnection SimpleDbConnection => 
+                      (SimpleDbConnection)_connectionManager.Connection;
+
+                  public void Open() => _connectionManager.Open();
+                  public void Close() => _connectionManager.Close();
+              }
+              </code>
+            </pre>
+            </div>
+            <h3 class="section__item">
+              Extracting query execution
+            </h3>
+            <p class="section__item">
+              We've seen how to manage database connections,
+              but running SQL queries is still mixed in with our
+              database classes. Let's separate that responsibility.
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class DatabaseSqlQueryExecutor
+                  {
+                      private DatabaseConnectionManager _connectionManager;
+
+                      public DatabaseSqlQueryExecutor() { }
+
+                      public DatabaseSqlQueryExecutor(DatabaseConnectionManager connectionManager)
+                      {
+                          ConnectionManager = connectionManager;
+                      }
+
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          var command = _connectionManager.Connection.CreateCommand();
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                          {
+                              foreach (var param in queryParameters)
+                              {
+                                  command.Parameters.Add(param);
+                              }
+                          }
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+                  }
+                
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              Now, instead of embedding query logic inside our database classes,
+              we can <em>inject</em> a
+              <span class="section__code-fragment">
+                DatabaseSqlQueryExecutor
+              </span>
+              whenever we need to run SQL quereis.
+            </p>
+            <h3 class="section__item">
+              Putting it together
+            </h3>
+            <p class="section__item">
+              Here's our Improved
+              <span class="section__code-fragment">
+                MySql
+              </span>
+              and
+              <span class="section__code-fragment">
+                SqlServer
+              </span>
+              classes using both components.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public sealed class MySql
+                  {
+                      private readonly DatabaseConnectionManager _connectionManager;
+                      private readonly DatabaseSqlQueryExecutor _queryExecutor;
+
+                      public MySql() { }
+
+                      public MySql(
+                          DatabaseConnectionManager connectionManager,
+                          DatabaseSqlQueryExecutor queryExecutor)
+                      {
+                          ConnectionManager = connectionManager;
+                          QueryExecutor = queryExecutor;
+                      }
+
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(ConnectionManager));
+                      }
+
+                      public required DatabaseSqlQueryExecutor QueryExecutor
+                      {
+                          init => _queryExecutor = value
+                              ?? throw new ArgumentNullException(nameof(QueryExecutor));
+                      }
+
+                      public MySqlConnection MySqlConnection =>
+                          (MySqlConnection)_connectionManager.Connection;
+
+                      public MySqlDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          return (MySqlDataReader)
+                              _queryExecutor.ExecuteSqlQuery(sql, commandType, queryParameters);
+                      }
+
+                      public void Open() => _connectionManager.Open();
+                      public void Close() => _connectionManager.Close();
+                  }
+
+                  public sealed class SqlServer
+                  {
+                      // ...
+                  }
+                </code>
+              </pre>
+            </div>
+            <h3 class="section__item">
+              Why this is better
+            </h3>
+            <p class="section__item">
+              This is the beauty of composition:
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                <b>Need connection management?</b> Use
+                <span class="section__code-fragment">DatabaseConnectionManager</span>.
+              </li>
+              <li class="section__list-item">
+                <b>Need to execute SQL queries?</b> Use
+                <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>.
+              </li>
+              <li class="section__list-item">
+                <b>Don't need one of them?</b> Don't include it.
+              </li>
+            </ul>
+            <p class="section__item">
+              This makes our architecture <b>flexible</b> -
+              each class has a single responsibility and can be reused elsewhere.
+            </p>
+            <p class="section__item">
+              But… we lost something important along the way.
+            </p>
+          </section>
+          <section class="section__interfaces">
+            <h1 class="section__item">
+              Interfaces
+            </h1>
+            <p class="section__item">
+              Let's look back at the relationships between classes we've had at the beginning.
+            </p>
+            <figure class="section__uml-wrapper">
+              <picture class="section__uml-inheritance-picture">
+                <source srcset="/uml/uml-inheritance-light.svg" media="(prefers-color-scheme: light)"
+                  class="section__uml-image">
+                <source srcset="/uml/uml-inheritance-dark.svg" media="(prefers-color-scheme: dark)"
+                  class="section__uml-image">
+                <img src="/uml/uml-inheritance-dark.svg" alt="UML inheritance diagram" class="section__uml-image">
+              </picture>
+              <figcaption>
+                First inheritance structure
+              </figcaption>
+            </figure>
+            <h2 class="section__item">Contracts are expectations</h2>
+            <p class="section__item">
+              Initially, our database classes <b>inherited</b> from a
+              common base class
+              <span class="section__code-fragment">Database</span>
+              .
+              This acted as a <b>contract</b>:
+            </p>
+            <p class="section__item section__item--em">
+              <em>
+                "All of my children will have at least these methods
+                and these properties"
+              </em>.
+            </p>
+            <p class="section__item">
+              This allows us for example to create a
+              <span class="section__code-fragment">DatabaseFactory</span>
+              class that dynamically creates different
+              <span class="section__code-fragment">Database</span>
+              subclasses.
+            </p>
+            <h3 class="section__item">Database factory implementation</h3>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public enum DatabaseType
+                  {
+                      MySql,
+                      SqlServer,
+                      SimpleDb
+                  }
+
+                  public static class DatabaseFactory
+                  {
+                      public static Database CreateDatabase(DatabaseType type, IDbConnection connection)
+                      {
+                          return type switch
+                          {
+                              DatabaseType.MySql => 
+                                  new MySql((MySqlConnection)connection),
+                              DatabaseType.SqlServer => 
+                                  new SqlServer((SqlConnection)connection),
+                              DatabaseType.SimpleDb => 
+                                  new SimpleDb((SimpleDbConnection)connection),
+                              _ => throw new 
+                                  ArgumentException("Unsupported database type", nameof(type))
+                          };
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              But after moving to composition, our classes are independent.
+              They no longer share a common base, so we can't treat them interchangeably.
+            </p>
+            <figure class="section__uml-wrapper">
+              <picture class="section__uml-no-inheritance-picture">
+                <source srcset="/uml/uml-no-inheritance-light.svg" media="(prefers-color-scheme: light)"
+                  class="section__uml-image">
+                <source srcset="/uml/uml-no-inheritance-dark.svg" media="(prefers-color-scheme: dark)"
+                  class="section__uml-image">
+                <img src="/uml/uml-no-inheritance-dark.svg" alt="UML no inheritance diagram" class="section__uml-image">
+              </picture>
+              <figcaption>
+                After composing our classes
+              </figcaption>
+            </figure>
+            <p class="section__item">
+              Notice that the classes aren't pointing at anything anymore.
+            </p>
+            <p class="section__item">
+              If we tried implementing the factory class now we'd get an error because there is no
+              <span class="section__code-fragment">Database</span>
+              <b>contract</b> that our subclasses are fulfilling.
+            </p>
+            <h2 class="section__item">
+              Interfaces as contracts
+            </h2>
+            <h3 class="section__item">
+              Introducing
+              <span class="section__code-fragment">IDatabaseConnection</span>
+            </h3>
+            <p class="section__item">
+              We'll fix that by using an <b>interface</b>.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+                public interface IDatabaseConnection
+                {
+                    void Open();
+                    void Close();
+                }
+              </code>
+            </pre>
+            </div>
+            <p class="section__item">
+              Let's implement this interface. We only have to change three lines.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+              <code class="language-csharp">
+                public sealed class MySql : IDatabaseConnection
+                public sealed class SqlServer : IDatabaseConnection
+                public sealed class SimpleDb : IDatabaseConnection
+              </code>
+            </pre>
+            </div>
+            <p class="section__item">
+              With this, our classes once again share a common contract -
+              but instead of inheritance, we use <b>interfaces</b>.
+            </p>
+            <figure class="section__uml-wrapper">
+              <picture class="section__uml-interface-picture">
+                <source srcset="/uml/uml-interface-light.svg" media="(prefers-color-scheme: light)"
+                  class="section__uml-image">
+                <source srcset="/uml/uml-interface-light.svg" media="(prefers-color-scheme: dark)"
+                  class="section__uml-image">
+                <img src="/uml/uml-interface-light.svg" alt="UML no inheritance diagram" class="section__uml-image">
+              </picture>
+              <figcaption>
+                After interfacing our classes
+              </figcaption>
+            </figure>
+            <p class="section__item">Let's try reimplementing back our
+              <span class="section__code-fragment">DatabaseFactory</span>
+              class
+            </p>
+            <h3 class="section__item">
+              Interfaced factory implementation
+            </h3>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public enum DatabaseType
+                  {
+                      MySql,
+                      SqlServer,
+                      SimpleDb
+                  }
+
+                  public static class DatabaseFactory
+                  {
+                      public static IDatabaseConnection CreateDatabase(DatabaseType type, 
+                                                                      IDbConnection connection)
+                      {
+                          var connectionManager = new DatabaseConnectionManager(connection);
+
+                          return type switch
+                          {
+                              DatabaseType.MySql => 
+                                  new MySql(connectionManager, 
+                                            new DatabaseSqlQueryExecutor(connectionManager)),
+                              DatabaseType.SqlServer => 
+                                  new SqlServer(connectionManager, 
+                                                new DatabaseSqlQueryExecutor(connectionManager)),
+                              DatabaseType.SimpleDb => 
+                                  new SimpleDb(connectionManager),
+                              _ => throw new ArgumentException("Unsupported database type", nameof(type))
+                          };
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              Great, we've gone back to what we've had before.
+              We could tighten up the hierarchy with a
+              <span class="section__code-fragment">
+                IDatabaseSql
+              </span>
+              interface but I won't be covering that.
+            </p>
+            <h2 class="section__item">
+              From inheritance to flexible contracts
+            </h2>
+            <p class="section__item">
+              We've moved from <b>inheritance</b> to <b>composition</b> for more flexibility.
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                <b>Composition</b> gives us reusable components (
+                <span class="section__code-fragment">DatabaseConnectionManager</span>,
+                <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+                ).
+              </li>
+              <li class="section__list-item">
+                <b>Interfaces</b> give us polymorphism (treating all database classes the same).
+              </li>
+              <li class="section__list-item">
+                Together, they make our architecture cleaner, more flexible, and easier to extend.
+              </li>
+            </ul>
+            <p class="section__item">
+              We're now ready to finally tackle dependency injection.
+            </p>
+          </section>
+          <section class="section__dependency-injecton">
+            <h1 class="section__item">
+              Dependency injection
+            </h1>
+            <p class="section__item">
+              So, what actually is dependency injection? You've already seen it!
+            </p>
+            <p class="section__item">
+              Recall these pieces of code from before:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp" data-line="1">
+                <code class="language-csharp">
+                  public Database(IDbConnection connection)
+                      {
+                          Connection = connection;
+                      }
+                </code>
+              </pre>
+            </div>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp" data-line="2-3">
+                <code class="language-csharp">
+                  public MySql(
+                          DatabaseConnectionManager connectionManager,
+                          DatabaseSqlQueryExecutor queryExecutor)
+                      {
+                          ConnectionManager = connectionManager;
+                          QueryExecutor = queryExecutor;
+                      }
+                </code>
+              </pre>
+            </div>
+            <h2 class="section__item">What does "Injection" mean?</h2>
+            <p class="section__item">
+              Dependency injection (DI) is a design pattern where a class receives its required objects (dependencies)
+              from the <b>outside</b>, instead of creating them itself.
+            </p>
+            <p class="section__item">
+              You typically <b>inject</b>
+              through the constructor or a property. This is what makes dependency injection powerful.
+            </p>
+            <div class="section__information-block">
+              <div class="information__text">
+                <div class="information__beginning">
+                  <img src="/information-icon.svg" class="section__info-icon" alt="information icon">
+                  <h3 class="section__item">Outside, not inside</h3>
+                </div>
+                If you create dependencies inside your class with
+                <span class="section__code-fragment">new</span>
+                , you're tightly coupling your class
+                to those implementations. With DI, you pass them in from the outside, making your code more reusable
+                and easier to change.
+              </div>
+            </div>
+            <h3 class="section__item">
+              What's the big deal?
+            </h3>
+            <p class="section__item">
+              I like to think of this as a <em>puzzle piece pattern</em>.
+            </p>
+            <p class="section__item">
+              Think of this like building with puzzle pieces. Each piece is independent and can be swapped out.
+            </p>
+            <p class="section__item">
+              If you build components separately (like <span class="section__code-fragment">IDatabaseConnection</span>),
+              replacing one affects all subclasses automatically, without rewriting everything.
+            </p>
+            <h2 class="section__item">
+              Testing with DI
+            </h2>
+            <p class="section__item">
+              Let's make this more concrete. Suppose we have a class
+              <span class="section__code-fragment">
+                DatabaseSqlQueryExecutor
+              </span>
+              that writes database query results
+              to a file using a
+              <span class="section__code-fragment">
+                SqlToFile
+              </span>
+              class, which itself uses a
+              <span class="section__code-fragment">
+                SqlEncryption
+              </span>
+              class to encrypt data.
+            </p>
+            <p class="section__item">
+              Let's first modify
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class DatabaseSqlQueryExecutor
+                  {
+                      private readonly DatabaseConnectionManager _connectionManager;
+                      private readonly SqlToFile _sqlToFile;
+
+                      public DatabaseSqlQueryExecutor() { }
+
+                      public DatabaseSqlQueryExecutor(DatabaseConnectionManager connectionManager, SqlToFile sqlToFile)
+                      {
+                          ConnectionManager = connectionManager;
+                          SqlToFile = sqlToFile;
+                      }
+
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public required SqlToFile SqlToFile
+                      {
+                          init => _sqlToFile = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          var command = _connectionManager.Connection.CreateCommand();
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                          {
+                              foreach (var param in queryParameters)
+                              {
+                                  command.Parameters.Add(param);
+                              }
+                          }
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+
+                      public void ExecuteQueryAndWriteToFile(
+                          string sql,
+                          string filePath,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          using IDataReader reader = ExecuteSqlQuery(sql, commandType, queryParameters);
+                          _sqlToFile.WriteToFile(reader, filePath);
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <h3 class="section__item">
+              Implementing <span class="section__code-fragment">SqlToFile</span>
+            </h3>
+            <p class="section__item">
+              The <span class="section__code-fragment">SqlToFile</span> class uses an injected
+              <span class="section__code-fragment">SqlEncryption</span> object to encrypt each row before writing:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class SqlEncryption : ISqlEncryption
+                  {
+                      private readonly _secretKey;
+
+                      public Encrypt(string row) 
+                      {
+                          // Encryption logic
+                      }
+                  }
+
+                  public class SqlToFile
+                  {
+                      private readonly string SqlEncryption _encryption;
+
+                      public SqlToFile() { }
+
+                      public SqlToFile(SqlEncryption encryption)
+                      {
+                          Encryption = encryption;
+                      }
+
+                      public required SqlEncryption Encryption
+                      {
+                          init => _encryption = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public void WriteToFile(IDataReader reader, string filePath)
+                      {
+                          using var writer = new StreamWriter(filePath, false, Encoding.UTF8);
+
+                          for (int i = 0; i &lt; reader.FieldCount; i++)
+                          {
+                              string columnName = reader.GetName(i);
+                              writer.Write(columnName);
+                              if (i &lt; fieldCount - 1)
+                              {
+                                  writer.Write(",");
+                              }
+                          }
+                          writer.WriteLine();
+
+                          while (reader.Read())
+                          {
+                              string[] rowData = new string[fieldCount];
+                              for (int i = 0; i &lt; fieldCount; i++)
+                              {
+                                  object value = reader.GetValue(i);
+                                  rowData[i] = value != null ? value.ToString()! : string.Empty;
+                              }
+
+                              string row = string.Join(",", rowData);
+
+                              string encryptedRow = _encryption.Encrypt(row);
+                              writer.WriteLine(encryptedRow);
+                          }
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              But when testing if it's writing the content correctly, wouldn't we
+              rather want to see plain text with no encryption?
+            </p>
+            <p class="section__item">
+              This is the crux of dependency injection.
+            </p>
+            <h2 class="section__item">Using a factory for injection</h2>
+            <p class="section__item">
+              Let's modify our factory so we can pass in any implementation of
+              <span class="section__code-fragment">ISqlEncryption</span>:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public static class DatabaseFactory
+                  {
+                      public static IDatabaseConnection CreateDatabase(DatabaseType type, 
+                                                                      IDbConnection connection,
+                                                                      ISqlEncryption? encryption)
+                      {
+                          var connectionManager = new DatabaseConnectionManager(connection);
+
+                          return type switch
+                          {
+                              DatabaseType.MySql => 
+                                  new MySql(connectionManager, 
+                                            new DatabaseSqlQueryExecutor(connectionManager,
+                                                                        encryption)),
+                              DatabaseType.SqlServer => 
+                                  new SqlServer(connectionManager, 
+                                                new DatabaseSqlQueryExecutor(connectionManager,
+                                                                            encryption)),
+                              DatabaseType.SimpleDb => 
+                                  new SimpleDb(connectionManager),
+                              _ => throw new ArgumentException("Unsupported database type", nameof(type))
+                          };
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <h2 class="section__item">
+              The puzzle piece pattern
+            </h2>
+            <p class="section__item">
+              Now we can replace
+              <span class="section__code-fragment">
+                SqlEncryption
+              </span> with a test-friendly
+              mock class that does nothing:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class TestSqlEncryption : ISqlEncryption
+                  {
+                      private readonly string _secretKey = String.empty;
+
+                      public Encrypt(string row) 
+                      {
+                          return row;
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">And inject it like this:</p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  TestSqlEncryption testSqlEncryption = new ("Testing");
+
+                  MySql mySqlDb = DatabaseFactory.CreateDatabase(
+                      DatabaseType.MySql,
+                      new MySqlConnection
+                      {
+                          ConnectionString = "...";
+                      },
+                      testSqlEncryption
+                  );
+
+                  SqlServer sqlServerDb = DatabaseFactory.CreateDatabase(
+                      DatabaseType.SqlServer,
+                      new MySqlConnection
+                      {
+                          ConnectionString = "...";
+                      },
+                      testSqlEncryption
+                  );
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              If each database class created its own encryption object internally, you'd have to change them all
+              for testing.
+            </p>
+            <p class="section__item">
+              With DI, you only change it in one place.
+            </p>
+          </section>
+          <section class="secton__conclusion">
+            <h1 class="section__item">
+              Conclusion
+            </h1>
+            <p class="section__item">
+              In this article, we traced the evolution
+              inheritance-based approaches to using interfaces,
+              and finally to dependency injection (DI). Initially,
+              inheritance was used to share behavior, but it often led to rigid and tightly coupled code.
+            </p>
+            <p class="section__item">
+              Introducing interfaces allowed us to define contracts that multiple classes could implement, promoting
+              flexibility and decoupling. However, even with interfaces, classes often created their own dependencies
+              internally, limiting testability and reusability.
+            </p>
+            <p class="section__item">
+              Dependency Injection addresses these issues by inverting control: dependencies are passed in from the
+              outside rather than being created inside the class. This shift enhances modularity, makes swapping
+              implementations easy, and greatly improves testing by enabling the use of mocks or stubs.
+            </p>
+            <p class="section__item">
+              By moving from inheritance to interfaces and finally to DI, we build software that is more maintainable,
+              flexible, and aligned with modern best practices.
+            </p>
+          </section>
     </main>
 
     <footer class="layout__footer">

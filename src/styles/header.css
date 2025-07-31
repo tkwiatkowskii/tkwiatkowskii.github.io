@@ -259,7 +259,7 @@
   width: auto;
   height: auto;
   gap: 0.7rem;
-  top: 6%;
+  top: 4.5%;
   right: 0;
   margin-inline-end: min(3rem, 10vw);
 }
@@ -282,15 +282,19 @@
   flex-wrap: wrap;
   padding-inline-start: 2rem;
   padding-inline-end: 2rem;
-  padding-block: 1.5rem;
+  padding-block: 1.5rem 0.75rem;
 }
 
-.navigation__item--section {
+.navigation__item-section {
   font-weight: 600;
   font-size: 1.3rem;
   margin-block-end: 2rem;
   position: relative;
   counter-reset: section;
+}
+
+.navigation__item-section--short {
+  margin-block-end: 1rem;
 }
 
 .navigation__sublist::before {
