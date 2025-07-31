@@ -82,13 +82,46 @@
             Composition
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="3">
-            dsjndjsnj
+            When inheritance forces the wrong behaviour
           </li>
-          <li class="sidebar__item--section sidebar__item" tabindex="4">
-            dsaidsajn
+          <li class="sidebar__item--subsection sidebar__item" tabindex="4">
+            Attempted fix: Separate executor class
           </li>
           <li class="sidebar__item--subsection sidebar__item" tabindex="5">
-            dsaidsajn
+            When inheritance becomes a trap
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Can we do better?
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Extracting connection management
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            From inheritance to composition
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Extracting query execution
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Putting it together
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Why this is better
+          </li>
+          <li class="sidebar__item--section sidebar__item" tabindex="2">
+            Interfaces
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Contracts are expectations
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Database factory implementation
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Interfaces as contracts
+          </li>
+          <li class="sidebar__item--subsection sidebar__item" tabindex="5">
+            Introducing IDatabaseConnection
           </li>
         </ol>
       </div>
@@ -595,7 +628,9 @@
               Extracting query execution
             </h3>
             <p class="section__item">
-              Let's do the same for
+              We've seen how to manage database connections,
+              but running SQL queries is still mixed in with our
+              database classes. Let's separate that responsibility.
               <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
             </p>
             <div class="code__wrapper">
@@ -643,10 +678,12 @@
               </pre>
             </div>
             <p class="section__item">
-              Now if a class needs to run SQL queries, we simply <em>inject</em> a
+              Now, instead of embedding query logic inside our database classes,
+              we can <em>inject</em> a
               <span class="section__code-fragment">
                 DatabaseSqlQueryExecutor
               </span>
+              whenever we need to run SQL quereis.
             </p>
             <h3 class="section__item">
               Putting it together
@@ -735,10 +772,11 @@
               </li>
             </ul>
             <p class="section__item">
-              We have significantly improved on the flexibility of our architecture.
+              This makes our architecture <b>flexible</b> -
+              each class has a single responsibility and can be reused elsewhere.
             </p>
             <p class="section__item">
-              ...But haven't we lost something along the way?
+              But… we lost something important along the way.
             </p>
           </section>
           <section class="section__interfaces">
@@ -762,12 +800,13 @@
             </figure>
             <h2 class="section__item">Contracts are expectations</h2>
             <p class="section__item">
-              The main
+              Initially, our database classes <b>inherited</b> from a
+              common base class
               <span class="section__code-fragment">Database</span>
-              forms a contract that all of its inheriting children must follow.
+              .
+              This acted as a <b>contract</b>:
             </p>
-            <p class="section__item">
-              The contracts says this:
+            <p class="section__item section__item--em">
               <em>
                 "All of my children will have at least these methods
                 and these properties"
@@ -812,28 +851,8 @@
               </pre>
             </div>
             <p class="section__item">
-              Why can
-              <span class="section__code-fragment">
-                DatabaseFactory
-              </span>
-              do this?
-            </p>
-            <p class="section__item">
-              All children inheriting from
-              <span class="section__code-fragment">
-                Database
-              </span>
-              fulfill the same contract imposed by the parent. That's why
-              our factory knows that each subclass object returned will
-              also qualify as a
-              <span class="section__code-fragment">
-                Database
-              </span>
-              object.
-            </p>
-            <p class="section__item">
-              Now let's take a loot at the relationship diagram after
-              composing our classes
+              But after moving to composition, our classes are independent.
+              They no longer share a common base, so we can't treat them interchangeably.
             </p>
             <figure class="section__uml-wrapper">
               <picture class="section__uml-no-inheritance-picture">
@@ -855,17 +874,18 @@
               <span class="section__code-fragment">Database</span>
               <b>contract</b> that our subclasses are fulfilling.
             </p>
-          </section>
-          <h2 class="section__item">
-            Interfaces are contracts
-          </h2>
-          <p class="section__item">
-            Let's create an interface
-            <span class="section__code-fragment">IDatabaseConnection</span>
-            that will restore the behaviour we've had before.
-          </p>
-          <div class="code__wrapper">
-            <pre class="line-numbers language-csharp">
+            <h2 class="section__item">
+              Interfaces as contracts
+            </h2>
+            <h3 class="section__item">
+              Introducing
+              <span class="section__code-fragment">IDatabaseConnection</span>
+            </h3>
+            <p class="section__item">
+              We'll fix that by using an <b>interface</b>.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
               <code class="language-csharp">
                 public interface IDatabaseConnection
                 {
@@ -874,102 +894,457 @@
                 }
               </code>
             </pre>
-          </div>
-          <p class="section__item">
-            Let's implement this interface. We only have to change three lines.
-          </p>
-          <div class="code__wrapper">
-            <pre class="line-numbers language-csharp">
+            </div>
+            <p class="section__item">
+              Let's implement this interface. We only have to change three lines.
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
               <code class="language-csharp">
                 public sealed class MySql : IDatabaseConnection
                 public sealed class SqlServer : IDatabaseConnection
                 public sealed class SimpleDb : IDatabaseConnection
               </code>
             </pre>
-          </div>
-          <p class="section__item">
-            What's happened?
-          </p>
-          <p class="section__item">
-            Now our classes are fulfilling contracts again. Just
-            that now, the contracts are being served if the form of interfaces.
-            By implementing an interface we are also serving a contract at the same time.
-          </p>
-          <p class="section__item">Let's try reimplementing back our
-            <span class="section__code-fragment">DatabaseFactory</span>
-            class
-          </p>
-          <h3 class="section__item">
-            Interfaced factory implementation
-          </h3>
-          <div class="code__wrapper">
-            <pre class="line-numbers language-csharp">
-              <code class="language-csharp">
-                public enum DatabaseType
-                {
-                    MySql,
-                    SqlServer,
-                    SimpleDb
-                }
+            </div>
+            <p class="section__item">
+              With this, our classes once again share a common contract -
+              but instead of inheritance, we use <b>interfaces</b>.
+            </p>
+            <figure class="section__uml-wrapper">
+              <picture class="section__uml-interface-picture">
+                <source srcset="/uml/uml-interface-light.svg" media="(prefers-color-scheme: light)"
+                  class="section__uml-image">
+                <source srcset="/uml/uml-interface-light.svg" media="(prefers-color-scheme: dark)"
+                  class="section__uml-image">
+                <img src="/uml/uml-interface-light.svg" alt="UML no inheritance diagram" class="section__uml-image">
+              </picture>
+              <figcaption>
+                After interfacing our classes
+              </figcaption>
+            </figure>
+            <p class="section__item">Let's try reimplementing back our
+              <span class="section__code-fragment">DatabaseFactory</span>
+              class
+            </p>
+            <h3 class="section__item">
+              Interfaced factory implementation
+            </h3>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public enum DatabaseType
+                  {
+                      MySql,
+                      SqlServer,
+                      SimpleDb
+                  }
 
-                public static class DatabaseFactory
-                {
-                    public static IDatabaseConnection CreateDatabase(DatabaseType type, 
-                                                                    IDbConnection connection)
-                    {
-                        var connectionManager = new DatabaseConnectionManager(connection);
+                  public static class DatabaseFactory
+                  {
+                      public static IDatabaseConnection CreateDatabase(DatabaseType type, 
+                                                                      IDbConnection connection)
+                      {
+                          var connectionManager = new DatabaseConnectionManager(connection);
 
-                        return type switch
-                        {
-                            DatabaseType.MySql => 
-                                new MySql(connectionManager, 
-                                          new DatabaseSqlQueryExecutor(connectionManager)),
-                            DatabaseType.SqlServer => 
-                                new SqlServer(connectionManager, 
-                                              new DatabaseSqlQueryExecutor(connectionManager)),
-                            DatabaseType.SimpleDb => 
-                                new SimpleDb(connectionManager),
-                            _ => throw new ArgumentException("Unsupported database type", nameof(type))
-                        };
-                    }
-                }
-              </code>
-            </pre>
-          </div>
-          <p class="section__item">
-            Great, we've gone back to what we've had before.
-            We could tighten up the hierarchy with a
-            <span class="section__code-fragment">
-              IDatabaseSqlQueryExecutor
-            </span>
-            interface but I won't be covering that.
-          </p>
-          <p class="section__item">
-            We're now ready to finally tackle dependency injection.
-          </p>
+                          return type switch
+                          {
+                              DatabaseType.MySql => 
+                                  new MySql(connectionManager, 
+                                            new DatabaseSqlQueryExecutor(connectionManager)),
+                              DatabaseType.SqlServer => 
+                                  new SqlServer(connectionManager, 
+                                                new DatabaseSqlQueryExecutor(connectionManager)),
+                              DatabaseType.SimpleDb => 
+                                  new SimpleDb(connectionManager),
+                              _ => throw new ArgumentException("Unsupported database type", nameof(type))
+                          };
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              Great, we've gone back to what we've had before.
+              We could tighten up the hierarchy with a
+              <span class="section__code-fragment">
+                IDatabaseSql
+              </span>
+              interface but I won't be covering that.
+            </p>
+            <h2 class="section__item">
+              From inheritance to flexible contracts
+            </h2>
+            <p class="section__item">
+              We've moved from <b>inheritance</b> to <b>composition</b> for more flexibility.
+            </p>
+            <ul class="section__list">
+              <li class="section__list-item">
+                <b>Composition</b> gives us reusable components (
+                <span class="section__code-fragment">DatabaseConnectionManager</span>,
+                <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+                ).
+              </li>
+              <li class="section__list-item">
+                <b>Interfaces</b> give us polymorphism (treating all database classes the same).
+              </li>
+              <li class="section__list-item">
+                Together, they make our architecture cleaner, more flexible, and easier to extend.
+              </li>
+            </ul>
+            <p class="section__item">
+              We're now ready to finally tackle dependency injection.
+            </p>
           </section>
           <section class="section__dependency-injecton">
             <h1 class="section__item">
               Dependency injection
             </h1>
+            <p class="section__item">
+              So, what actually is dependency injection? You've already seen it!
+            </p>
+            <p class="section__item">
+              Recall these pieces of code from before:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp" data-line="1">
+                <code class="language-csharp">
+                  public Database(IDbConnection connection)
+                      {
+                          Connection = connection;
+                      }
+                </code>
+              </pre>
+            </div>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp" data-line="2-3">
+                <code class="language-csharp">
+                  public MySql(
+                          DatabaseConnectionManager connectionManager,
+                          DatabaseSqlQueryExecutor queryExecutor)
+                      {
+                          ConnectionManager = connectionManager;
+                          QueryExecutor = queryExecutor;
+                      }
+                </code>
+              </pre>
+            </div>
+            <h2 class="section__item">What does "Injection" mean?</h2>
+            <p class="section__item">
+              Dependency injection (DI) is a design pattern where a class receives its required objects (dependencies)
+              from the <b>outside</b>, instead of creating them itself.
+            </p>
+            <p class="section__item">
+              You typically <b>inject</b>
+              through the constructor or a property. This is what makes dependency injection powerful.
+            </p>
             <div class="section__information-block">
               <div class="information__text">
                 <div class="information__beginning">
                   <img src="/information-icon.svg" class="section__info-icon" alt="information icon">
-                  <h3 class="section__item">dasdasd</h3>
+                  <h3 class="section__item">Outside, not inside</h3>
                 </div>
-                dsadasdasdsadasdas dsadas dasdas
+                If you create dependencies inside your class with
+                <span class="section__code-fragment">new</span>
+                , you're tightly coupling your class
+                to those implementations. With DI, you pass them in from the outside, making your code more reusable
+                and easier to change.
               </div>
             </div>
-            <h3 class="section__item">dsadasdas</h3>
-            <ul class="section__list">
-              <li class="section__list-item">sadasdasd</li>
-              <li class="section__list-item">dasdasdasd</li>
-              <li class="section__list-item">dasdasdas</li>
-            </ul>
+            <h3 class="section__item">
+              What's the big deal?
+            </h3>
+            <p class="section__item">
+              I like to think of this as a <em>puzzle piece pattern</em>.
+            </p>
+            <p class="section__item">
+              Think of this like building with puzzle pieces. Each piece is independent and can be swapped out.
+            </p>
+            <p class="section__item">
+              If you build components separately (like <span class="section__code-fragment">IDatabaseConnection</span>),
+              replacing one affects all subclasses automatically, without rewriting everything.
+            </p>
+            <h2 class="section__item">
+              Testing with DI
+            </h2>
+            <p class="section__item">
+              Let's make this more concrete. Suppose we have a class
+              <span class="section__code-fragment">
+                DatabaseSqlQueryExecutor
+              </span>
+              that writes database query results
+              to a file using a
+              <span class="section__code-fragment">
+                SqlToFile
+              </span>
+              class, which itself uses a
+              <span class="section__code-fragment">
+                SqlEncryption
+              </span>
+              class to encrypt data.
+            </p>
+            <p class="section__item">
+              Let's first modify
+              <span class="section__code-fragment">DatabaseSqlQueryExecutor</span>
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class DatabaseSqlQueryExecutor
+                  {
+                      private readonly DatabaseConnectionManager _connectionManager;
+                      private readonly SqlToFile _sqlToFile;
+
+                      public DatabaseSqlQueryExecutor() { }
+
+                      public DatabaseSqlQueryExecutor(DatabaseConnectionManager connectionManager, SqlToFile sqlToFile)
+                      {
+                          ConnectionManager = connectionManager;
+                          SqlToFile = sqlToFile;
+                      }
+
+                      public required DatabaseConnectionManager ConnectionManager
+                      {
+                          init => _connectionManager = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public required SqlToFile SqlToFile
+                      {
+                          init => _sqlToFile = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public IDataReader ExecuteSqlQuery(
+                          string sql,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          var command = _connectionManager.Connection.CreateCommand();
+                          command.CommandText = sql;
+                          command.CommandType = commandType;
+
+                          if (queryParameters != null)
+                          {
+                              foreach (var param in queryParameters)
+                              {
+                                  command.Parameters.Add(param);
+                              }
+                          }
+
+                          return command.ExecuteReader(CommandBehavior.CloseConnection);
+                      }
+
+                      public void ExecuteQueryAndWriteToFile(
+                          string sql,
+                          string filePath,
+                          CommandType commandType = CommandType.Text,
+                          params IDataParameter[] queryParameters)
+                      {
+                          using IDataReader reader = ExecuteSqlQuery(sql, commandType, queryParameters);
+                          _sqlToFile.WriteToFile(reader, filePath);
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <h3 class="section__item">
+              Implementing <span class="section__code-fragment">SqlToFile</span>
+            </h3>
+            <p class="section__item">
+              The <span class="section__code-fragment">SqlToFile</span> class uses an injected
+              <span class="section__code-fragment">SqlEncryption</span> object to encrypt each row before writing:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class SqlEncryption : ISqlEncryption
+                  {
+                      private readonly _secretKey;
+
+                      public Encrypt(string row) 
+                      {
+                          // Encryption logic
+                      }
+                  }
+
+                  public class SqlToFile
+                  {
+                      private readonly string SqlEncryption _encryption;
+
+                      public SqlToFile() { }
+
+                      public SqlToFile(SqlEncryption encryption)
+                      {
+                          Encryption = encryption;
+                      }
+
+                      public required SqlEncryption Encryption
+                      {
+                          init => _encryption = value
+                              ?? throw new ArgumentNullException(nameof(value));
+                      }
+
+                      public void WriteToFile(IDataReader reader, string filePath)
+                      {
+                          using var writer = new StreamWriter(filePath, false, Encoding.UTF8);
+
+                          for (int i = 0; i &lt; reader.FieldCount; i++)
+                          {
+                              string columnName = reader.GetName(i);
+                              writer.Write(columnName);
+                              if (i &lt; fieldCount - 1)
+                              {
+                                  writer.Write(",");
+                              }
+                          }
+                          writer.WriteLine();
+
+                          while (reader.Read())
+                          {
+                              string[] rowData = new string[fieldCount];
+                              for (int i = 0; i &lt; fieldCount; i++)
+                              {
+                                  object value = reader.GetValue(i);
+                                  rowData[i] = value != null ? value.ToString()! : string.Empty;
+                              }
+
+                              string row = string.Join(",", rowData);
+
+                              string encryptedRow = _encryption.Encrypt(row);
+                              writer.WriteLine(encryptedRow);
+                          }
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              But when testing if it's writing the content correctly, wouldn't we
+              rather want to see plain text with no encryption?
+            </p>
+            <p class="section__item">
+              This is the crux of dependency injection.
+            </p>
+            <h2 class="section__item">Using a factory for injection</h2>
+            <p class="section__item">
+              Let's modify our factory so we can pass in any implementation of
+              <span class="section__code-fragment">ISqlEncryption</span>:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public static class DatabaseFactory
+                  {
+                      public static IDatabaseConnection CreateDatabase(DatabaseType type, 
+                                                                      IDbConnection connection,
+                                                                      ISqlEncryption? encryption)
+                      {
+                          var connectionManager = new DatabaseConnectionManager(connection);
+
+                          return type switch
+                          {
+                              DatabaseType.MySql => 
+                                  new MySql(connectionManager, 
+                                            new DatabaseSqlQueryExecutor(connectionManager,
+                                                                        encryption)),
+                              DatabaseType.SqlServer => 
+                                  new SqlServer(connectionManager, 
+                                                new DatabaseSqlQueryExecutor(connectionManager,
+                                                                            encryption)),
+                              DatabaseType.SimpleDb => 
+                                  new SimpleDb(connectionManager),
+                              _ => throw new ArgumentException("Unsupported database type", nameof(type))
+                          };
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <h2 class="section__item">
+              The puzzle piece pattern
+            </h2>
+            <p class="section__item">
+              Now we can replace
+              <span class="section__code-fragment">
+                SqlEncryption
+              </span> with a test-friendly
+              mock class that does nothing:
+            </p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  public class TestSqlEncryption : ISqlEncryption
+                  {
+                      private readonly string _secretKey = String.empty;
+
+                      public Encrypt(string row) 
+                      {
+                          return row;
+                      }
+                  }
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">And inject it like this:</p>
+            <div class="code__wrapper">
+              <pre class="line-numbers language-csharp">
+                <code class="language-csharp">
+                  TestSqlEncryption testSqlEncryption = new ("Testing");
+
+                  MySql mySqlDb = DatabaseFactory.CreateDatabase(
+                      DatabaseType.MySql,
+                      new MySqlConnection
+                      {
+                          ConnectionString = "...";
+                      },
+                      testSqlEncryption
+                  );
+
+                  SqlServer sqlServerDb = DatabaseFactory.CreateDatabase(
+                      DatabaseType.SqlServer,
+                      new MySqlConnection
+                      {
+                          ConnectionString = "...";
+                      },
+                      testSqlEncryption
+                  );
+                </code>
+              </pre>
+            </div>
+            <p class="section__item">
+              If each database class created its own encryption object internally, you'd have to change them all
+              for testing.
+            </p>
+            <p class="section__item">
+              With DI, you only change it in one place.
+            </p>
           </section>
-        </div>
-      </div>
+          <section class="secton__conclusion">
+            <h1 class="section__item">
+              Conclusion
+            </h1>
+            <p class="section__item">
+              In this article, we traced the evolution
+              inheritance-based approaches to using interfaces,
+              and finally to dependency injection (DI). Initially,
+              inheritance was used to share behavior, but it often led to rigid and tightly coupled code.
+            </p>
+            <p class="section__item">
+              Introducing interfaces allowed us to define contracts that multiple classes could implement, promoting
+              flexibility and decoupling. However, even with interfaces, classes often created their own dependencies
+              internally, limiting testability and reusability.
+            </p>
+            <p class="section__item">
+              Dependency Injection addresses these issues by inverting control: dependencies are passed in from the
+              outside rather than being created inside the class. This shift enhances modularity, makes swapping
+              implementations easy, and greatly improves testing by enabling the use of mocks or stubs.
+            </p>
+            <p class="section__item">
+              By moving from inheritance to interfaces and finally to DI, we build software that is more maintainable,
+              flexible, and aligned with modern best practices.
+            </p>
+          </section>
     </main>
 
     <footer class="layout__footer">
