@@ -63,14 +63,10 @@ export default class LanguageConfig {
   }
 
   private redirectOnPreferredLanguage() : void {
-    if (!localStorage.getItem('preferredLanguage')) {
-      this.redirectOnBrowserLanguage();
-      return;
-    }
-
     const preferredLanguage : string | null = localStorage.getItem('preferredLanguage');
     const currentPath : string = window.location.pathname;
 
+    if (!preferredLanguage) return;
 
     if (preferredLanguage === 'pl' && currentPath !== '/src/locales/index.pl.html') {
       window.location.href = '/src/locales/index.pl.html';
@@ -79,18 +75,6 @@ export default class LanguageConfig {
     }
     else {
       return;
-    }
-  }
-
-  private redirectOnBrowserLanguage() : void {
-    const browserLanguage : string = navigator.language.split('-')[0];
-    localStorage.setItem('preferredLanguage', browserLanguage);
-    
-    if (!['en', 'pl'].includes(browserLanguage) || browserLanguage == 'en') {
-      window.location.href = '/index.html';
-    } 
-    else {
-      window.location.href = '/src/locales/index.pl.html';
     }
   }
 
