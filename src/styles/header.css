@@ -291,6 +291,7 @@
   margin-block-end: 2rem;
   position: relative;
   counter-reset: section;
+  
 }
 
 .navigation__item-section--short {
@@ -317,14 +318,17 @@
   font-size: 1rem;
 }
 
+.navigation__item--subsection {
+  padding-inline-start: 1rem;
+}
+
 .navigation__item--subsection::before {
   font-size: 1rem;
-  padding-inline-end: 1rem;
   content: counter(section);
   counter-increment: section;
-  position: relative;
+  position: absolute;
   min-width: 3ch;
-  top: 0.1rem;
+  left: -1rem;
   font-size: 1rem;
   display: inline-block;
   text-align: center;
