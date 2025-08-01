@@ -259,7 +259,7 @@
   width: auto;
   height: auto;
   gap: 0.7rem;
-  top: 4.5%;
+  top: 4vh;
   right: 0;
   margin-inline-end: min(3rem, 10vw);
 }
